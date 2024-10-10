@@ -130,9 +130,10 @@ class AppointmentController extends Controller
                     $service->status_id = 19;
                     $service->appointment_id = $data->id;
                     $service->save();
-                    $message = 'Appointment added successfully';
-                    $status = true;
                 }
+                
+                $message = 'Appointment added successfully';
+                $status = true;
             }
         }
 

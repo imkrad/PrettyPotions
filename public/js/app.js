@@ -1229,12 +1229,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var simplebar_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! simplebar-vue */ "./node_modules/simplebar-vue/dist/simplebar-vue.esm.js");
 /* harmony import */ var _Modals_Calendar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modals/Calendar.vue */ "./resources/js/Pages/Modules/Home/Management/Modals/Calendar.vue");
 /* harmony import */ var _Register_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Register.vue */ "./resources/js/Pages/Register.vue");
 /* harmony import */ var _Modals_Create_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Modals/Create.vue */ "./resources/js/Pages/Modules/Home/Management/Modals/Create.vue");
 /* harmony import */ var _Modals_View_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Modals/View.vue */ "./resources/js/Pages/Modules/Home/Management/Modals/View.vue");
 /* harmony import */ var _vueform_multiselect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @vueform/multiselect */ "./node_modules/@vueform/multiselect/dist/multiselect.mjs");
 /* harmony import */ var _vueform_multiselect_themes_default_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @vueform/multiselect/themes/default.css */ "./node_modules/@vueform/multiselect/themes/default.css");
+
 
 
 
@@ -1248,7 +1250,8 @@ __webpack_require__.r(__webpack_exports__);
     View: _Modals_View_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     Create: _Modals_Create_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     Register: _Register_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Calendar: _Modals_Calendar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Calendar: _Modals_Calendar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    simplebar: simplebar_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
     return {
@@ -6346,7 +6349,7 @@ var _hoisted_14 = {
   "data-target": "197"
 };
 var _hoisted_15 = {
-  "class": "card"
+  "class": "card mt-n3"
 };
 var _hoisted_16 = {
   "class": "card-body"
@@ -6488,13 +6491,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "btn btn-success"
   }, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Walkin Appointment")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BRow, {
-    "class": "row-cols-xxl-4"
+    "class": "row-cols-xxl-4 mt-n2"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BCol, null, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BCard, {
-            "no-body": ""
+            "no-body": "",
+            "class": "mb-2"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BLink, {

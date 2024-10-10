@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mt-n3">
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-3">
@@ -40,9 +40,9 @@
                 </div>
             </div>
 
-            <BRow class="row-cols-xxl-4">
+            <BRow class="row-cols-xxl-4 mt-n2">
                 <BCol>
-                    <BCard no-body>
+                    <BCard no-body class="mb-2">
                         <BLink class="card-header bg-warning-subtle" role="button">
                             <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Pending Appointments</h5>
                             <p class="text-muted mb-0">{{counts[0].total}} appointments</p>
@@ -127,6 +127,7 @@
     <Calendar ref="calendar"/>
 </template>
 <script>
+import simplebar from "simplebar-vue";
 import Calendar from './Modals/Calendar.vue';
 import Register from '../../../Register.vue';
 import Create from './Modals/Create.vue';
@@ -135,7 +136,7 @@ import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
     props: ['categories','counts','appointments'],
-    components: { Multiselect, View, Create, Register, Calendar },
+    components: { Multiselect, View, Create, Register, Calendar, simplebar },
     data(){
         return {
             filter : {
