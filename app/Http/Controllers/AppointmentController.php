@@ -215,6 +215,34 @@ class AppointmentController extends Controller
                     ]);
                 }
             }
+        }else if($request->option == 'Confirm'){
+            $a = Appointment::findOrFail($request->id);
+            $a->status_id = $request->status_id;
+            $a->save();
+
+            if($a){
+            
+            $client = new Client();
+            $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                'query' => [
+                    'apiusername' => 'APIJLHNMMIQBJ',
+                    'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                    'senderid' => 'TEST',
+                    'mobileno' => \Auth::user()->profile->mobile,
+                    'message' => $request->reason,
+                    'languagetype' => 1
+                ]
+            ]);
+            $response = json_decode($result->getBody()->getContents());
+
+            return back()->with([
+                'data' => '',
+                'message' => 'Appointment cancelled successfully.',
+                'info' => '-',
+                'status' => true,
+            ]);
+               
+            }
         }else if($request->option == 'service'){
             $data = AppointmentService::findOrFail($request->id);
             $data->update($request->except('editable'));
@@ -239,6 +267,13 @@ class AppointmentController extends Controller
                 'status' => true,
             ]);
         }else{
+            $validatedData = $request->validate([
+                'date' => 'required',
+                'time' => 'required',
+                'cart' => 'required',
+            ]);
+
+            
             $data = Appointment::findOrFail($request->id);
             $data->update($request->except('editable'));
             $data = Appointment::with('lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','user.profile','status')->where('id',$request->id)->first();
