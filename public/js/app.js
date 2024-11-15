@@ -594,6 +594,9 @@ __webpack_require__.r(__webpack_exports__);
       var val = (value / 1).toFixed(2).replace(',', '.');
       return '₱' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+    openReport: function openReport() {
+      window.open('/appointments?option=report');
+    },
     refresh: function refresh() {
       this.fetch();
     }
@@ -5156,8 +5159,8 @@ var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_b_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-col");
-  var _component_b_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-row");
   var _component_b_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-button");
+  var _component_b_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-row");
   var _component_Pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Pagination");
   var _component_View = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("View");
   var _component_Create = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Create");
@@ -5186,8 +5189,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         md: "1"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <b-button variant=\"primary\" class=\"w-100\" @click=\"openCreate()\">Create</b-button> ")];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_b_button, {
+            variant: "primary",
+            "class": "w-100",
+            onClick: _cache[1] || (_cache[1] = function ($event) {
+              return $options.openReport();
+            })
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Generate Report")];
+            }),
+            _: 1 /* STABLE */
+          })];
         }),
+
         _: 1 /* STABLE */
       })];
     }),

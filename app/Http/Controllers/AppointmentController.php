@@ -26,6 +26,9 @@ class AppointmentController extends Controller
             case 'reports':
                 return $this->reports($request);
             break;
+            case 'report':
+                return $this->report($request);
+            break;
             case 'ids':
                 return $this->ids($request);
             break;
@@ -426,6 +429,22 @@ class AppointmentController extends Controller
         );
 
         return $data;
+    }
+
+    public function report(){ 
+        $year = date('Y');
+
+        $lists = Appointment::with('user.profile','status','lists.service','lists.status','lists.aesthetician.user.profile','review')
+        ->whereYear('created_at',$year)
+        ->get();
+
+        $array = [
+            'title' => 'List of Appointment',
+            'lists' => $lists,
+            'year' => $year
+        ];
+        $pdf = \PDF::loadView('reports',$array)->setPaper([0, 0, 500, 900], 'landscape');
+        return $pdf->stream('reports.pdf');
     }
     
 }

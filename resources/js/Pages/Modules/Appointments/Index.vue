@@ -30,7 +30,7 @@
                            
                         </b-col>
                         <b-col md="1">
-                            <!-- <b-button variant="primary" class="w-100" @click="openCreate()">Create</b-button> -->
+                            <b-button variant="primary" class="w-100" @click="openReport()">Generate Report</b-button>
                         </b-col>
                     </b-row>
                     <div class="table-responsive">
@@ -147,6 +147,9 @@ export default {
         formatMoney(value) {
             let val = (value/1).toFixed(2).replace(',', '.')
             return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        },
+        openReport(){
+            window.open('/appointments?option=report');
         },
         refresh(){
             this.fetch();
