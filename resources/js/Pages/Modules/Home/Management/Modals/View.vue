@@ -18,18 +18,6 @@
             </div>
         </div>
         <hr class="text-muted"/>
-        <!-- <div class="table-responsive mt-3">
-            <table class="table table-nowrap align-middle mb-0">
-                <thead class="table-light">
-                    <tr class="fs-11">
-                        <th style="width: 70%;">Service</th>
-                        <th class="text-center" v-if="selected.status.name == 'Confirmed'">Aesthetician</th>
-                        <th style="width: 25%;" :class="(selected.status.name == 'Pending') ? 'text-center' : 'text-end'">Price</th>
-                        <th v-if="selected.status.name == 'Pending'"></th>
-                    </tr>
-                </thead>
-            </table>
-        </div> -->
         <div class="table-responsive" style="max-height: 250px; overflow: auto;">
             <table class="table table-nowrap align-middle mb-0">
                 <thead class="table-light">

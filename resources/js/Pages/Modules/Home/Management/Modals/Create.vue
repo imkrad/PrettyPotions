@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="mt-n1 mb-n3">
-                                            <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 8.42k </p>
+                                            <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> {{(list.rating) ? list.rating : '-'}} </p>
                                             <h5 class="text-success fs-14">₱{{list.price}} </h5>
                                         </div>
                                     </div>
@@ -95,7 +95,8 @@
     <Tao @update="updateCart" ref="tao"/>
 </template>
 <script>
-import Confirm from '../../../Home/Client/Modals/Confirm.vue';
+import Tao from './Tao.vue';
+import Confirm from './Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {

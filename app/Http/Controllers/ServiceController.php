@@ -115,7 +115,7 @@ class ServiceController extends Controller
     public function services($request){
         $data = ServiceResource::collection(
             Service::query()
-            ->with('category.aestheticians.aesthetician.user.profile')
+            ->with('category.aestheticians.aesthetician.user.profile','ratings')
             ->when($request->category, function ($query, $category) {
                 $query->where('category_id',$category);
             })

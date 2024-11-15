@@ -22,4 +22,9 @@ class Service extends Model
         return $this->belongsTo('App\Models\Dropdown', 'category_id', 'id');
     }
 
+    public function ratings()
+    {
+        return $this->hasMany('App\Models\ServiceRate', 'service_id');
+    } 
+
 }

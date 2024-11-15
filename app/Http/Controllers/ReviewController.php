@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use App\Models\Appointment;
+use App\Models\AppointmentService;
+use App\Models\ServiceRate;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 
@@ -34,7 +36,17 @@ class ReviewController extends Controller
         if($count > 0){
             $wew = Appointment::where('id',$request->appointment_id)->update(['is_rated' => 1]);
             $data = Review::create(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
-        
+            if($data){
+                $services = AppointmentService::where('appointment_id',$request->appointment_id)->get();
+                foreach($services as $service){
+                    $rate = new ServiceRate;
+                    $rate->rating = $request->rating;
+                    $rate->appointment_id = $request->appointment_id;
+                    $rate->service_id = $service['service_id'];
+                    $rate->user_id = \Auth::user()->id;
+                    $rate->save();
+                }
+            }
             return back()->with([
                 'data' => $data,
                 'message' => 'Appointment rated successfully.',

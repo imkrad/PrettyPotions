@@ -21,6 +21,9 @@ class ServiceResource extends JsonResource
             'category_id' => $this->category_id,
             'price' => $this->price,
             'is_active' => $this->is_active,
+            'rating' => $this->ratings->count() > 0 
+            ? round($this->ratings->avg('rating'), 2) 
+            : null,
             'category' => new CategoryViewResource($this->category)
         ];
     }

@@ -31,29 +31,7 @@
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">PP - Pretty Potions</h1>
                             <p class="lead text-muted lh-base mb-4">At Pretty Potion, we specialize in enhancing your natural allure and revealing the radiant beauty that lies within you. Our clinic offers a magical experience tailored to rejuvenate your skin, sculpt your body, accentuate your brows and lashes, and pamper your nails.</p>
-                            <form action="#" class="job-panel-filter">
-                                <b-row class="g-md-0 g-2">
-                                    <b-col md="4">
-                                        <div>
-                                            <input type="search" id="job-title" class="form-control filter-input-box"
-                                                placeholder="services...">
-                                        </div>
-                                    </b-col>
-                                    <b-col md="4">
-                                        <div>
-                                            <select class="form-control" data-choices>
-                                                <option value="">Select service</option>
-                                            </select>
-                                        </div>
-                                    </b-col>
-                                    <b-col md="4">
-                                        <div class="h-100">
-                                            <b-button variant="primary" class="submit-btn w-100 h-100" type="submit"><i
-                                                    class="ri-search-2-line align-bottom me-1"></i> Find Services</b-button>
-                                        </div>
-                                    </b-col>
-                                </b-row>
-                            </form>
+                         
 
                             <ul class="treding-keywords list-inline mb-0 mt-3 fs-13">
                                 <li class="list-inline-item text-danger fw-semibold"><i

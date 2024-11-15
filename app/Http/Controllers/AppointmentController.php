@@ -270,7 +270,7 @@ class AppointmentController extends Controller
 
             return back()->with([
                 'data' => '',
-                'message' => 'Appointment cancelled successfully.',
+                'message' => 'Appointment confirmed successfully.',
                 'info' => '-',
                 'status' => true,
             ]);
@@ -300,11 +300,11 @@ class AppointmentController extends Controller
                 'status' => true,
             ]);
         }else{
-            $validatedData = $request->validate([
-                'date' => 'required',
-                'time' => 'required',
-                'cart' => 'required',
-            ]);
+            // $validatedData = $request->validate([
+            //     'date' => 'required',
+            //     'time' => 'required',
+            //     'cart' => 'required',
+            // ]);
 
             
             $data = Appointment::findOrFail($request->id);
@@ -336,30 +336,44 @@ class AppointmentController extends Controller
         }
     }
 
-    public function reports($request){
-        $current_year = $request->year; $years = []; 
+    public function reports($request) {
+        $current_year = $request->year;
+        $months = [];
         $laboratory = $request->laboratory;
-
+    
+        // Generate month labels (e.g., "Jan", "Feb", etc.)
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = date('M', mktime(0, 0, 0, $i, 1));
+        }
+    
         $programs = [
             ['name' => 'Completed Appointments', 'value' => 20],
             ['name' => 'Cancelled Appointments', 'value' => 21],
         ];
-        $prog = []; 
-        foreach($programs as $program){
-            $data = []; $year = $current_year - 20;
-            for($year; $year <= $current_year; $year++){
-                $years[] = $year; $p = $program['value'];
-                $data[] = Appointment::where('status_id',$p)->whereYear('created_at',$year)->count();
+    
+        $arr = [];
+    
+        foreach ($programs as $program) {
+            $data = [];
+            $status_id = $program['value'];
+    
+            // Iterate through each month in the current year
+            for ($month = 1; $month <= 12; $month++) {
+                $count = Appointment::where('status_id', $status_id)
+                    ->whereYear('created_at', $current_year)
+                    ->whereMonth('created_at', $month)
+                    ->count();
+                $data[] = $count;
             }
+    
             $arr[] = [
                 'name' => $program['name'],
-                'data' => $data  
+                'data' => $data
             ];
-            
         }
-
-        return $y =[
-            'categories' => $years,
+    
+        return [
+            'categories' => $months,
             'lists' => $arr
         ];
     }
