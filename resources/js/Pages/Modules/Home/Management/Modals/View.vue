@@ -100,8 +100,8 @@
         </div>
         <hr class="text-muted mb-n2"/>
         <template v-slot:footer>
-            <b-button v-if="selected.status.name === 'Pending'" @click="save(21)" variant="danger" block>Cancel Booking</b-button>
-            <b-button v-if="selected.status.name === 'Pending' && client === false" @click="save(22)" variant="primary" :disabled="form.processing" block>Mark as Confirmed</b-button>
+            <b-button v-if="selected.status.name === 'Pending'" @click="openSave(21,'Cancel')" variant="danger" block>Cancel Booking</b-button>
+            <b-button v-if="selected.status.name === 'Pending' && client === false" @click="openSave(22,'Confirm')" variant="primary" :disabled="form.processing" block>Mark as Confirmed</b-button>
             <b-button v-if="selected.status.name === 'Confirmed' && client === false" @click="save(23)" variant="info" :disabled="(nullCount == 0) ? false : true" block>Mark as Ongoing</b-button>
             <b-button v-if="selected.status.name === 'Ongoing' && client === false" @click="save(20)" variant="success" :disabled="(pendingCount == 0) ? false : true" block>Mark as Completed</b-button>
             
@@ -110,15 +110,17 @@
     </b-modal>
     <More @message="update" ref="more"/>
     <A @message="update" ref="a"/>
+    <C @update="hide" ref="confirm"/>
 </template>
 <script>
 import A from './A.vue';
+import C from './C.vue';
 import More from './More.vue';
 import vue3StarRatings from "vue3-star-ratings";
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
-    components: { Multiselect, vue3StarRatings, More, A },
+    components: { Multiselect, vue3StarRatings, More, A, C },
     props: ['specialists','categories','users'],
     data(){
         return {
@@ -153,6 +155,9 @@ export default {
             this.client = true;
             this.selected = data;
             this.showModal = true;
+        },
+        openSave(status,type){
+           this.$refs.confirm.show(status,type,this.selected.id);
         },
         save(status){
             this.form = this.$inertia.form({

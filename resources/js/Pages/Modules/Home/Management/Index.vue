@@ -42,7 +42,7 @@
 
             <BRow class="row-cols-xxl-4 mt-n2">
                 <BCol>
-                    <BCard no-body class="mb-2">
+                    <BCard no-body>
                         <BLink class="card-header bg-warning-subtle" role="button">
                             <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Pending Appointments</h5>
                             <p class="text-muted mb-0">{{counts[0].total}} appointments</p>

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Booking;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
+use App\Models\AppointmentReason;
 use App\Models\AestheticianService;
 use App\Models\Dropdown;
 use App\Models\Service;
@@ -50,6 +51,12 @@ class AppointmentController extends Controller
             ->with('user.profile','status','lists.service','lists.status','lists.aesthetician.user.profile','review')
             ->when($request->keyword, function ($query, $keyword) {
                 $query->where('code', 'LIKE', "%{$keyword}%");
+                $query->orWhereHas('user',function ($query) use ($keyword) {
+                    $query->whereHas('profile',function ($query) use ($keyword) {
+                        $query->where(\DB::raw('concat(firstname," ",lastname)'), 'LIKE', "%{$keyword}%")
+                        ->orWhere(\DB::raw('concat(lastname," ",firstname)'), 'LIKE', "%{$keyword}%");
+                    });
+                });
             })
             ->paginate($request->counts)
         );
@@ -207,6 +214,68 @@ class AppointmentController extends Controller
                 'info' => '-',
                 'status' => true,
             ]);
+        }else if($request->option == 'Cancel'){
+            $a = Appointment::findOrFail($request->id);
+            $a->status_id = $request->status_id;
+            $a->save();
+
+            if($a){
+                $data = AppointmentReason::create([
+                    'appointment_id' => $request->id,
+                    'reason' => $request->reason,
+                    'user_id' => \Auth::user()->id
+                ]);
+
+                if($data){
+                    $client = new Client();
+                    $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                        'query' => [
+                            'apiusername' => 'APIJLHNMMIQBJ',
+                            'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                            'senderid' => 'TEST',
+                            'mobileno' => \Auth::user()->profile->mobile,
+                            'message' => $request->reason,
+                            'languagetype' => 1
+                        ]
+                    ]);
+                    $response = json_decode($result->getBody()->getContents());
+
+                    return back()->with([
+                        'data' => '',
+                        'message' => 'Appointment cancelled successfully.',
+                        'info' => '-',
+                        'status' => true,
+                    ]);
+                }
+            }
+        }else if($request->option == 'Confirm'){
+            $a = Appointment::findOrFail($request->id);
+            $a->status_id = $request->status_id;
+            $a->save();
+
+            if($a){
+            
+            $client = new Client();
+            $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                'query' => [
+                    'apiusername' => 'APIJLHNMMIQBJ',
+                    'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                    'senderid' => 'TEST',
+                    'mobileno' => \Auth::user()->profile->mobile,
+                    'message' => $request->reason,
+                    'languagetype' => 1
+                ]
+            ]);
+            $response = json_decode($result->getBody()->getContents());
+
+            return back()->with([
+                'data' => '',
+                'message' => 'Appointment cancelled successfully.',
+                'info' => '-',
+                'status' => true,
+            ]);
+               
+            }
         }else if($request->option == 'service'){
             $data = AppointmentService::findOrFail($request->id);
             $data->update($request->except('editable'));
@@ -231,6 +300,13 @@ class AppointmentController extends Controller
                 'status' => true,
             ]);
         }else{
+            $validatedData = $request->validate([
+                'date' => 'required',
+                'time' => 'required',
+                'cart' => 'required',
+            ]);
+
+            
             $data = Appointment::findOrFail($request->id);
             $data->update($request->except('editable'));
             $data = Appointment::with('lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','user.profile','status')->where('id',$request->id)->first();

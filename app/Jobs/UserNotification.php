@@ -23,8 +23,8 @@ class UserNotification implements ShouldQueue
 
     public function handle(): void
     {
-        $user = User::where('id',$this->data)->first();
-        $expiresAt = now()->addDay();
-        $user->sendWelcomeNotification($expiresAt);
+        // $user = User::where('id',$this->data)->first();
+        // $expiresAt = now()->addDay();
+        // $user->sendWelcomeNotification($expiresAt);
     }
 }

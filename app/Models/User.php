@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use \Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +12,7 @@ use App\Jobs\UserNotification;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, AuthenticationLoggable, ReceivesWelcomeNotification;
+    use HasApiTokens, HasFactory, Notifiable, AuthenticationLoggable;
 
     protected $fillable = [
         'username',
@@ -55,12 +54,6 @@ class User extends Authenticatable
     public function aesthetician()
     {
         return $this->hasOne('App\Models\Aesthetician', 'user_id');
-    }
-
-
-    public function scopeVerify(){
-        // $mail = UserNotification::dispatch($this->id)->delay(now()->addSeconds(10));
-        // return $mail;
     }
 
     public function setEmailAttribute($value)

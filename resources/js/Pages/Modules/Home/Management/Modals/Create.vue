@@ -95,8 +95,7 @@
     <Tao @update="updateCart" ref="tao"/>
 </template>
 <script>
-import Tao from './Tao.vue';
-import Confirm from './Confirm.vue';
+import Confirm from '../../../Home/Client/Modals/Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
