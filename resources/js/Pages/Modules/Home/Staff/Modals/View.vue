@@ -18,7 +18,7 @@
                             {{selected.appointment.user.profile.firstname}} {{selected.appointment.user.profile.lastname}}
                         </td>
                         <td class="fs-12 text-center" style="width: 33%;">
-                            {{selected.appointment.date}}
+                            {{selected.date}}
                         </td>
                     </tr>
                 </tbody>

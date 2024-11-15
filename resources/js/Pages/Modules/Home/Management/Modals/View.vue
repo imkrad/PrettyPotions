@@ -1,12 +1,12 @@
 <template>
-    <b-modal v-model="showModal" title="View Booking"  :style="(selected.status.name == 'Pending' || selected.status.name == 'Confirmed') ? '--vz-modal-width: 800px;' : '--vz-modal-width: 600px;'" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
+    <b-modal v-model="showModal" title="View Booking"  :style="(selected.status.name == 'Pending' || selected.status.name == 'Confirmed') ? '--vz-modal-width: 900px;' : '--vz-modal-width: 900px;'" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
         <div class="d-flex">
             <div class="flex-grow-1">
                 <h4>{{this.selected.code}}</h4>
                 <div class="hstack gap-3 flex-wrap mt-n1">
                     <div><a href="#" class="text-primary d-block">{{selected.user.profile.firstname}} {{selected.user.profile.lastname}}</a></div>
                     <div class="vr"></div>
-                    <div class="text-muted">Date : <span class="text-body fw-medium">{{selected.date}}</span></div>
+                    <div class="text-muted">Date : <span class="text-body fw-medium">{{selected.created_at}}</span></div>
                     <div class="vr"></div>
                     <div class="text-muted">Status : <span class="fw-medium" :class="selected.status.others">{{selected.status.name}}</span></div>
                 </div>
@@ -34,8 +34,9 @@
             <table class="table table-nowrap align-middle mb-0">
                 <thead class="table-light">
                     <tr class="fs-11">
-                        <th style="width: 70%;">Service</th>
-                        <th class="text-center" v-if="selected.status.name == 'Confirmed'">Aesthetician</th>
+                        <th style="width: 50%;">Service</th>
+                        <th class="text-center">Aesthetician</th>
+                        <th class="text-center">Date</th>
                         <th class="text-center" v-if="selected.status.name == 'Ongoing'">Status</th>
                         <th style="width: 25%;" :class="(selected.status.name == 'Pending') ? 'text-center' : 'text-end'">Price</th>
                         <th v-if="selected.status.name == 'Pending'"></th>
@@ -47,13 +48,16 @@
                         <td class="fs-12" style="width: 70%;">
                             {{list.service.service}} <span v-if="list.service.description != 'n/a'" class="fs-11 text-muted">({{list.service.description}})</span> 
                         </td>
-                        <td class="text-center" v-if="selected.status.name == 'Confirmed'">
+                        <td class="text-center">
                             <span v-if="list.aesthetician">{{list.aesthetician.user.profile.firstname}} {{list.aesthetician.user.profile.lastname}}</span>
                             <span v-else>
                                 <b-button @click="addA(list.id,list.service.category_id,selected.id)" variant="soft-danger" size="sm" v-b-tooltip.hover title="add" class="remove-list me-1">
                                     Add aesthetician
                                 </b-button>
                             </span>
+                        </td>
+                        <td class="text-center">
+                            {{ list.date }}
                         </td>
                          <td class="text-center" v-if="selected.status.name == 'Ongoing'">
                             <span v-if="list.status.name === 'Completed'">
@@ -82,10 +86,6 @@
                     <tr class="table-light text-muted fs-12">
                         <td colspan="3">Subtotal : </td>
                         <td class="text-end">{{formatMoney(selected.total)}}</td>
-                    </tr>
-                    <tr class="table-light text-muted fs-12">
-                        <td colspan="3">Discount : </td>
-                        <td class="text-end">{{formatMoney(selected.discount)}}</td>
                     </tr>
                     <tr class="table-success fw-semibold">
                         <td colspan="3">Total : </td>
@@ -175,7 +175,7 @@ export default {
             this.showModal = false;
         },
         addMore(){
-            this.$refs.more.show(this.selected.lists,this.selected.id);
+            this.$refs.more.show(this.selected.lists,this.selected.id,this.selected.date);
         },
         removeCart(index,id,service){
             this.form = this.$inertia.form({

@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/appointments', App\Http\Controllers\AppointmentController::class);
         Route::resource('/reviews', App\Http\Controllers\ReviewController::class);
     });
+
+    Route::resource('/booking', App\Http\Controllers\BookingController::class);
 });
 
 require __DIR__.'/authentication.php';

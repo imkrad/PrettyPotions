@@ -14,7 +14,7 @@ class CalendarResource extends JsonResource
      */
     public function toArray(Request $request): array
     {   
-        $title = $this->code.' - '.$this->date;
+        $title = $this->service->service.' - '.$this->aesthetician->user->profile->firstname.' '.$this->aesthetician->user->profile->lastname;
         if($this->status_id === 19){
             $color = 'bg-warning';
         }else if($this->status_id === 22){

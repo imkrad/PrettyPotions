@@ -31,14 +31,14 @@
                         <tbody>
                             <tr v-for="(list,index) in booking.cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
                                 <td class="fs-12" style="width: 40%;">
-                                    {{list.service.service}} <span v-if="list.service.description != 'n/a'" class="fs-11 text-muted">({{list.service.description}})</span> 
+                                    {{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
                                 </td>
                                 <td class="text-center fs-12" style="width: 25%;">
-                                    <span v-if="list.aesthetician">{{list.aesthetician.user.profile.firstname}} {{list.aesthetician.user.profile.lastname}}</span>
+                                    <span v-if="list.aesthetician">{{list.aesthetician.name}}</span>
                                     <span v-else>-</span>
                                 </td>
-                                <td class="text-center" style="width: 20%;">{{ list.date }}</td>
-                                <td class="text-end fs-12" style="width: 15%;">{{formatMoney(list.service.price)}}</td>
+                                <td class="text-center" style="width: 20%;">{{ list.date }} {{ list.time }}</td>
+                                <td class="text-end fs-12" style="width: 15%;">{{formatMoney(list.price)}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -96,6 +96,14 @@ export default {
             this.booking.subtotal = subtotal;
             this.showModal = true;
         },
+        new(cart, subtotal, discount) {
+            this.booking.cart = cart;
+            this.booking.total = subtotal;
+            this.booking.subtotal = subtotal;
+            this.booking.is_walkin = true;
+            this.is_walkin = true;
+            this.showModal = true;
+        },
         create(){
             this.form = this.$inertia.form({
                 cart: this.booking.cart,
@@ -103,6 +111,7 @@ export default {
                 total: this.booking.total,
                 role: this.$page.props.role,
                 type: this.type,
+                option: 'walkin'
             })
 
             this.form.post('/appointments',{

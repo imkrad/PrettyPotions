@@ -16,6 +16,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('service');
             $table->string('description');
+            $table->string('image')->default('avatar.jpg');
             $table->decimal('price',12,2);
             $table->integer('category_id')->unsigned()->index();
             $table->foreign('category_id')->references('id')->on('dropdowns')->onDelete('cascade');

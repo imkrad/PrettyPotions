@@ -13,4 +13,9 @@ class Dropdown extends Model
     {
         return $this->hasMany('App\Models\Service', 'category_id');
     } 
+
+    public function aestheticians()
+    {
+        return $this->hasMany('App\Models\AestheticianService', 'category_id');
+    } 
 }

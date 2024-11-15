@@ -6,10 +6,13 @@ use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Dropdown;
 use App\Models\Service;
+use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\DropdownResource;
+use App\Http\Resources\ServiceResource;
+use App\Http\Resources\BookingResource;
 
 class HomeController extends Controller
 {
@@ -19,6 +22,7 @@ class HomeController extends Controller
         switch($role){
             case 'Client':
                 return inertia('Modules/Home/Client/Index',[
+                    'bookings' => BookingResource::collection(Booking::with('service','aesthetician.user.profile')->where('user_id',\Auth::user()->id)->get()),
                     'categories' => DropdownResource::collection(Dropdown::with('services')->where('classification','Category')->get()),
                     'appointments' => Appointment::with('lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','user.profile','status','review')->where('user_id',\Auth::user()->id)->whereIn('status_id',[19,20,21,22,23])->get()
                 ]);

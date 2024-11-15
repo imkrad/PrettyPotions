@@ -29,4 +29,14 @@ class Aesthetician extends Model
     {
         return $this->hasMany('App\Models\AestheticianService', 'aesthetician_id');
     } 
+
+    public function services()
+    {
+        return $this->hasMany('App\Models\AppointmentService', 'aesthetician_id');
+    } 
+
+    public function bookings()
+    {
+        return $this->hasMany('App\Models\Booking', 'aesthetician_id');
+    } 
 }

@@ -56,7 +56,7 @@
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="fs-14 mb-1">{{item.service.service}} <span class="text-muted fs-11">({{item.appointment.code}})</span></h6>
-                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.appointment.date}}</p>
+                                    <p class="fs-11 text-muted mb-0">Booking Date : {{item.date}}</p>
                                     <p class="fs-11 text-muted mb-n1">Created At : {{item.appointment.created_at}}</p>
                                 </div>
                             </BLink>

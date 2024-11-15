@@ -40,7 +40,7 @@
                                     <th style="width: 3%;">#</th>
                                     <th style="width: 25%;">Code</th>
                                     <th style="width: 22%;" class="text-center">Client</th>
-                                    <th style="width: 10%;" class="text-center">Date</th>
+                                    <th style="width: 10%;" class="text-center">Total</th>
                                     <th style="width: 10%;" class="text-center">Services</th>
                                     <th style="width: 15%;" class="text-center">Rating</th>
                                     <th style="width: 15%;" class="text-center">Status</th>
@@ -52,7 +52,7 @@
                                     <td>{{ ((meta.current_page - 1) * meta.per_page) + index + 1 }}</td>
                                     <td>{{list.code}}</td>
                                     <td class="text-center">{{list.user.profile.lastname}}, {{list.user.profile.firstname}}</td>
-                                    <td class="text-center">{{list.date}}</td>
+                                    <td class="text-center">{{formatMoney(list.total)}}</td>
                                     <td class="text-center">{{list.lists.length}}</td>
                                     <td class="text-center">{{(list.review) ? list.review.rating : 'n/a'}}</td>
                                     <td class="text-center">
@@ -143,6 +143,10 @@ export default {
             this.type = 'edit';
             this.index = index;
             this.$refs.create.edit(data);
+        },
+        formatMoney(value) {
+            let val = (value/1).toFixed(2).replace(',', '.')
+            return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
         refresh(){
             this.fetch();

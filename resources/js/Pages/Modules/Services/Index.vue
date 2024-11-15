@@ -61,8 +61,11 @@
                                         <span v-else class="badge bg-danger">Inactive</span>
                                     </td>
                                     <td class="text-end">
-                                        <b-button @click="openEdit(list)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list">
+                                        <b-button @click="openEdit(list)" variant="soft-warning" v-b-tooltip.hover title="Edit" size="sm" class="edit-list me-1">
                                             <i class="ri-pencil-fill align-bottom"></i>
+                                        </b-button>
+                                        <b-button @click="openUpdate(list)" variant="soft-primary" v-b-tooltip.hover title="View" size="sm" class="edit-list">
+                                            <i class="ri-eye-fill align-bottom"></i>
                                         </b-button>
                                     </td>
                                 </tr>
@@ -75,15 +78,17 @@
         </div>
     </div>
     <Create :options="categories.data" ref="create"/>
+    <Update ref="update"/>
 </template>
 <script>
 import Create from './Create.vue';
+import Update from './Update.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
     props: ['categories'],
-    components: { Pagination, Multiselect, Create },
+    components: { Pagination, Multiselect, Create, Update },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -135,6 +140,9 @@ export default {
         },
         openEdit(data){
             this.$refs.create.edit(data);
+        },
+        openUpdate(data){
+            this.$refs.update.show(data);
         },
         refresh(){
             this.fetch();

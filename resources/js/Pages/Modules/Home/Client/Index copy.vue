@@ -25,27 +25,53 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div style="height: calc(100vh - 270px); overflow: auto; margin-bottom: -20px;">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 col-xxl-3 product-item upto-30" v-for="(list,index) in services" v-bind:key="index" >
-                                <div class="card explore-box card-animate" @click="addCart(list)" style="cursor: pointer;">
-                                    <div class="position-relative rounded overflow-hidden">
-                                        <img :src="currentUrl+'/imagess/avatar.jpg'" alt="" class="card-img-top explore-img">
-                                    </div>
-                                    <div class="card-body">
-                                        <h6 class="fs-14 mb-0 text-truncate"><a class="" href="/apps/nft-item-detail" target="_self">{{list.service}}</a></h6>
-                                        <span class="text-muted">{{list.category.name}}</span>
-                                       
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="mt-n1 mb-n3">
-                                            <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 8.42k </p>
-                                            <h5 class="text-success fs-14">₱{{list.price}} </h5>
+                    <div>
+                        <b-row class="job-list-row" id="companies-list" v-if="!lists" style="height: calc(100vh - 301px); overflow-x: hidden;">
+                            <b-col xxl="4" v-for="(data, index) of categories.data" :key="index">
+                                <b-card no-body class="companiesList-card" @click="filter.category = data">
+                                    <b-card-body  style="cursor: pointer;">
+                                        <div class="text-center">
+                                            <h5 class="mt-1 fs-13 company-name">{{ data.name }}</h5>
+                                        </div>
+                                        <div>
+                                            <b-button type="button" variant="soft-primary" class="w-100 btn-sm viewcompany-list">{{data.services.length}} Services Available</b-button>
+                                        </div>
+                                    </b-card-body>
+                                </b-card>
+                            </b-col>
+                        </b-row>
+                        <b-row v-else>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body" style="height: calc(100vh - 302px); overflow-x: hidden;">
+                                        <div class="table-responsive">
+                                            <table class="table table-nowrap align-middle mb-0">
+                                                <thead class="table-light">
+                                                    <tr class="fs-11">
+                                                        <th style="width: 3%;">#</th>
+                                                        <th style="width: 30%;">Name</th>
+                                                        <th style="width: 35%;" class="text-center">Description</th>
+                                                        <th style="width: 15%;" class="text-center">Price</th>
+                                                        <th style="width: 10%;"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(list,index) in filter.category.services" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
+                                                        <td>{{ index + 1 }}</td>
+                                                        <td>{{list.service}}</td>
+                                                        <td class="text-center">{{list.description}}</td>
+                                                        <td class="text-center">{{list.price}}</td>
+                                                        <td class="text-end">
+                                                            <b-button variant="primary" class="btn btn-primary btn-sm waves-effect waves-light" @click="addCart(list)">Book Now</b-button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </b-row>
                     </div>
                 </div>
             </div>
@@ -70,15 +96,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(list,index) in bookings.data" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
+                                        <tr v-for="(list,index) in cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
                                             <td class="text-center">{{ index + 1 }}.</td>
                                             <td class="fs-12">
-                                               <h5 class="fs-12 mb-0"> {{list.service.service}} <span v-if="list.service.description != 'n/a'" class="fs-11 text-muted">({{list.service.description}})</span></h5>
-                                                <span v-if="list.aesthetician" class="fs-11 text-muted">{{list.aesthetician.user.profile.firstname}} {{list.aesthetician.user.profile.lastname}}</span> 
-                                                <!-- <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span>  -->
-                                                
+                                                {{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
                                             </td>
-                                            <td class="text-end fs-12">{{formatMoney(list.service.price)}}</td>
+                                            <td class="text-end fs-12">{{formatMoney(list.price)}}</td>
                                             <td class="text-end">
                                                 <b-button @click="removeCart(index)" variant="soft-danger" v-b-tooltip.hover title="Remove" size="sm" class="remove-list me-1">
                                                     <i class="ri-delete-bin-fill align-bottom"></i>
@@ -102,7 +125,7 @@
                             </div>
                             
                             <div class="d-grid gap-2 mt-4" >
-                                <button @click="openConfirm()" class="btn btn-info" type="button" :disabled="(bookings.data.length == 0) ? true : false">CONFIRM BOOKING</button>
+                                <button @click="openConfirm()" class="btn btn-info" type="button" :disabled="(cart.length == 0) ? true : false">CONFIRM BOOKING</button>
                             </div>
 
                         </div>
@@ -132,9 +155,9 @@
                             <thead class="table-light">
                                 <tr class="fs-11">
                                     <th style="width: 3%;">#</th>
-                                    <th style="width: 20%;">Code</th>
-                                    <th style="width: 10%;" class="text-center">Services</th>
-                                    <th style="width: 15%;" class="text-center">Total</th>
+                                    <th style="width: 25%;">Code</th>
+                                    <th style="width: 10%;" class="text-center">Date</th>
+                                    <th style="width: 10%;" class="text-center">Total</th>
                                     <th style="width: 15%;" class="text-center">Request Date</th>
                                     <th style="width: 15%;" class="text-center">Status</th>
                                     <th style="width: 10%;" class="text-center">Rate</th>
@@ -145,8 +168,8 @@
                                 <tr v-for="(list,index) in appointments" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ list.code }}</td>
+                                    <td class="text-center">{{list.date}}</td>
                                     <td class="text-center">{{list.lists.length}}</td>
-                                    <td class="text-center">{{formatMoney(list.total)}}</td>
                                     <td class="text-center">{{list.created_at}}</td>
                                     <td class="text-center">
                                         <span class="badge" :class="list.status.color">{{list.status.name}}</span>
@@ -176,27 +199,23 @@
     <Confirm @update="update" ref="confirm"/>
     <Rate ref="rate"/>
     <View ref="view"/>
-    <Tao @update="updateCart" ref="tao"/>
 </template>
 <script>
-import Tao from './Modals/Tao.vue';
 import View from '../Management/Modals/View.vue';
 import Rate from './Modals/Rate.vue';
 import Confirm from './Modals/Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
-    props: ['categories','appointments','bookings'],
-    components: { Multiselect, Confirm, Rate, View, Tao },
+    props: ['categories','appointments'],
+    components: { Multiselect, Confirm, Rate, View },
     data(){
         return {
-            currentUrl: window.location.origin,
             filter : {
                 keyword: null,
                 category: null
             },
             cart: [],
-            services: [],
             discount: 0,
             subtotal: 0,
             total: 0,
@@ -204,56 +223,33 @@ export default {
             neww: false
         }
     },
-    created(){
-        this.fetch();
-    },
     watch: {
         "filter.category"(){
             if(this.filter.category){
-                this.fetch();
+                this.lists = true;
             }else{
-                this.fetch();
+                this.lists = false;
             }
         },
-        "filter.keyword"(newVal){
-            this.checkSearchStr(newVal)
-        },
+        "filter.keyword"(){
+            
+        }
     },
     mounted() {
         this.calculateTotalPrice();
     },
     methods: {
-        checkSearchStr: _.debounce(function(string) {
-            this.fetch();
-        }, 300),
-        fetch(page_url){
-            page_url = page_url || '/services';
-            axios.get(page_url,{
-                params : {
-                    keyword : this.filter.keyword,
-                    category: this.filter.category,
-                    option: 'services'
-                }
-            })
-            .then(response => {
-                if(response){
-                    this.services = response.data.data;       
-                }
-            })
-            .catch(err => console.log(err));
-        },
         addCart(data){
-            const exst = this.bookings.data.some(item => item.service.id === data.id);
+            const exst = this.cart.some(item => item.id === data.id);
             if(!exst){
-                this.$refs.tao.show(data);
+                this.cart.push(data);
+            }else{
+                
             }
-        },
-        updateCart(data){
-            this.cart.push(data);
             this.calculateTotalPrice();
         },
         openConfirm(){
-            this.$refs.confirm.show(this.bookings.data,this.subtotal,this.discount,'book');
+            this.$refs.confirm.show(this.cart,this.subtotal,this.discount,'book');
         },
         openRate(list){
             this.$refs.rate.show(list.id);
@@ -262,7 +258,7 @@ export default {
             this.$refs.view.view(data);
         },
         calculateTotalPrice() {
-            this.subtotal = this.bookings.data.reduce((total, item) => total + parseFloat(item.service.price), 0);
+            this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);
         },
         formatMoney(value) {
             let val = (value/1).toFixed(2).replace(',', '.')

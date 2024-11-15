@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('appointments', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('code')->unique();
-            $table->decimal('total',12,2);
-            $table->boolean('is_walkin')->nullable();
-            $table->boolean('is_rated')->default(0);
-            $table->boolean('is_resched')->default(0);
-            $table->boolean('is_seened')->default(0);
-            $table->integer('status_id')->unsigned()->index();
-            $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade');
+            $table->dateTime('date');
+            $table->integer('aesthetician_id')->unsigned()->nullable();
+            $table->foreign('aesthetician_id')->references('id')->on('aestheticians')->onDelete('cascade');
+            $table->integer('service_id')->unsigned()->index();
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('bookings');
     }
 };

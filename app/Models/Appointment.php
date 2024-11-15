@@ -9,7 +9,7 @@ class Appointment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code','total','date','is_resched','is_walkin','is_rated','us_seened','user_id','status_id'];
+    protected $fillable = ['code','total','is_resched','is_walkin','is_rated','us_seened','user_id','status_id'];
 
     public function user()
     {
@@ -30,11 +30,6 @@ class Appointment extends Model
     {
         return $this->hasOne('App\Models\Review', 'appointment_id');
     } 
-
-    public function getDateAttribute($value)
-    {
-        return date('M d, Y g:i a', strtotime($value));
-    }
 
     public function getUpdatedAtAttribute($value)
     {

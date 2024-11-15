@@ -1,10 +1,28 @@
 <template>
     <b-modal v-model="showModal" title="Add More" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
-        <!-- {{services}} -->
-         <multiselect id="ajax" label="name" :searchable="true" object
-                    placeholder="Select Service" v-model="service" open-direction="bottom" 
-                    :options="services" :allow-empty="false" :show-labels="false">
-                    </multiselect> 
+        <b-form class="customform mb-2">
+            <div class="row">
+                <div class="col-md-12 mt-2">
+                    <div class="alert alert-warning" role="alert">It is optional to choose an aesthetician</div>
+                </div>
+                <div class="col-md-12 mt-2 mb-2">
+                    <div class="form-group">
+                        <multiselect id="ajax" label="name" :searchable="true" object
+                        placeholder="Select Service" v-model="service" open-direction="bottom" 
+                        :options="services" :allow-empty="false" :show-labels="false">
+                        </multiselect> 
+                    </div>
+                </div>
+                <div class="col-md-12 mt-2" v-if="service">
+                    <div class="form-group">
+                        <multiselect id="ajax" label="name" :searchable="true" object
+                        placeholder="Select Aesthetician" v-model="aesthetician" open-direction="bottom" 
+                        :options="aestheticians" :allow-empty="false" :show-labels="false">
+                        </multiselect> 
+                    </div>
+                </div>
+            </div>
+        </b-form>
         <template v-slot:footer>
             <b-button @click="hide()" variant="light" block>Cancel</b-button>
             <b-button @click="save()" variant="primary" :disabled="form.processing" block>Confirm</b-button>
@@ -23,12 +41,25 @@ export default {
             editable: false,
             service: '',
             services: [],
+            date: null,
+            aesthetician: null,
+            aestheticians: [],
             id: null
         }
     },
+    watch: {
+        service(newService) {
+            if (newService) {
+                this.aestheticians = newService.aestheticians;
+            } else {
+                this.aestheticians = [];
+            }
+        }
+    },
     methods : {
-        show(data,id) {
+        show(data,id,date) {
             this.id = id;
+            this.date = date;
             this.lists = data;
             this.showModal = true;
             this.fetch();
@@ -49,6 +80,8 @@ export default {
         save(){
              this.form = this.$inertia.form({
                 service: this.service,
+                aesthetician: this.aesthetician,
+                date: this.date,
                 appointment_id: this.id,
                 option: 'service'
             })

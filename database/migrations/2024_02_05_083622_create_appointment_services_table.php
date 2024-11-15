@@ -15,6 +15,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->decimal('price',12,2);
+            $table->dateTime('date');
             $table->integer('aesthetician_id')->unsigned()->nullable();
             $table->foreign('aesthetician_id')->references('id')->on('aestheticians')->onDelete('cascade');
             $table->integer('status_id')->unsigned()->index();

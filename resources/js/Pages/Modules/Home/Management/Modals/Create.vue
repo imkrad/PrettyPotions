@@ -22,50 +22,26 @@
                     </div>
                     <div class="col-md-12">
                         <div class="mt-3">
-                            <b-row class="job-list-row" id="companies-list" v-if="!lists" style="height: calc(100vh - 400px); overflow-x: hidden;">
-                                <b-col xxl="4" v-for="(data, index) of categories.data" :key="index">
-                                    <b-card no-body class="companiesList-card" @click="filter.category = data">
-                                        <b-card-body style="cursor: pointer;">
-                                            <div class="text-center">
-                                                <h5 class="mt-3 company-name fs-13">{{ data.name }}</h5>
-                                            </div>
-                                            <div>
-                                                <b-button type="button" variant="soft-primary" class="w-100 viewcompany-list">{{data.services.length}} Services Available</b-button>
-                                            </div>
-                                        </b-card-body>
-                                    </b-card>
-                                </b-col>
-                            </b-row>
-                            <b-row v-else>
-                                <div class="col-md-12 mt-3">
-                                    <div style="height: calc(100vh - 400px); overflow-x: hidden;">
-                                        <div class="table-responsive">
-                                            <table class="table table-nowrap align-middle mb-0">
-                                                <thead class="table-light">
-                                                    <tr class="fs-11">
-                                                        <th style="width: 3%;">#</th>
-                                                        <th style="width: 30%;">Name</th>
-                                                        <th style="width: 35%;" class="text-center">Description</th>
-                                                        <th style="width: 15%;" class="text-center">Price</th>
-                                                        <th style="width: 10%;"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(list,index) in filter.category.services" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
-                                                        <td>{{ index + 1 }}</td>
-                                                        <td>{{list.service}}</td>
-                                                        <td class="text-center">{{list.description}}</td>
-                                                        <td class="text-center">{{list.price}}</td>
-                                                        <td class="text-end">
-                                                            <b-button variant="primary" class="btn btn-primary btn-sm waves-effect waves-light" @click="addCart(list)">Book Now</b-button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                            <div class="row" style="height: calc(100vh - 400px); overflow-x: hidden;">
+                            <div class="col-md-6 col-lg-4 col-xxl-3 product-item upto-30" v-for="(list,index) in services" v-bind:key="index" >
+                                <div class="card explore-box card-animate" @click="addCart(list)" style="cursor: pointer;">
+                                    <div class="position-relative rounded overflow-hidden">
+                                        <img :src="currentUrl+'/imagess/avatar.jpg'" alt="" class="card-img-top explore-img">
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="fs-14 mb-0 text-truncate"><a class="" href="/apps/nft-item-detail" target="_self">{{list.service}}</a></h6>
+                                        <span class="text-muted">{{list.category.name}}</span>
+                                       
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="mt-n1 mb-n3">
+                                            <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 8.42k </p>
+                                            <h5 class="text-success fs-14">₱{{list.price}} </h5>
                                         </div>
                                     </div>
                                 </div>
-                            </b-row>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -73,76 +49,78 @@
             <div class="col-md-4">
                 <div class="alert alert-success material-shadow" role="alert">
                                 Services Summary
-                            </div>
-                            <hr class="text-muted"/>
-                            <div class="table-responsive">
-                                <table class="table table-nowrap align-middle mb-0">
-                                    <thead class="table-light">
-                                        <tr class="fs-11">
-                                            <th class="text-center" style="width: 3%;">#</th>
-                                            <th style="width: 30%;">Service</th>
-                                            <th style="width: 15%;" class="text-end">Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(list,index) in cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
-                                            <td class="text-center">{{ index + 1 }}.</td>
-                                            <td class="fs-12">{{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> 
-                                                <h5 class="fs-13 mb-0 text-dark">{{list.service}}</h5>
-                        <p class="fs-12 text-muted mb-0">{{list.description}}</p>
-                                            </td>
-                                            <td class="text-end fs-12">{{formatMoney(list.price)}}</td>
-                                        </tr>
-                                        <tr class="table-light text-muted fs-12">
-                                            <td colspan="2">Subtotal : </td>
-                                            <td class="text-end">{{formatMoney(subtotal)}}</td>
-                                        </tr>
-                                        <!-- <tr class="table-light text-muted fs-12">
-                                            <td colspan="2">Discount : </td>
-                                            <td class="text-end">{{formatMoney(discount)}}</td>
-                                        </tr> -->
-                                        <tr class="table-light fw-semibold">
-                                            <td colspan="2">Total : </td>
-                                            <td class="text-end">{{formatMoney(subtotal)}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="d-grid gap-2 mt-4" >
-                                <button @click="openConfirm()" class="btn btn-info" type="button">CONFIRM APPOINTMENT</button>
-                            </div>
+                </div>
+                <hr class="text-muted"/>
+                <div class="table-responsive">
+                    <table class="table table-nowrap align-middle mb-0">
+                        <thead class="table-light">
+                            <tr class="fs-11">
+                                <th class="text-center" style="width: 3%;">#</th>
+                                <th style="width: 30%;">Service</th>
+                                <th style="width: 15%;" class="text-end">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(list,index) in cart" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
+                                <td class="text-center">{{ index + 1 }}.</td>
+                                <td class="fs-12">
+                                    <h5 class="fs-13 mb-0 text-dark"> {{list.service}} <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span> </h5>
+                                    <p class="fs-12 text-muted mb-0">{{list.aesthetician.name}}</p>
+                                </td>
+                                <td class="text-end fs-12">{{formatMoney(list.price)}}</td>
+                            </tr>
+                            <tr class="table-light text-muted fs-12">
+                                <td colspan="2">Subtotal : </td>
+                                <td class="text-end">{{formatMoney(subtotal)}}</td>
+                            </tr>
+                            <!-- <tr class="table-light text-muted fs-12">
+                                <td colspan="2">Discount : </td>
+                                <td class="text-end">{{formatMoney(discount)}}</td>
+                            </tr> -->
+                            <tr class="table-light fw-semibold">
+                                <td colspan="2">Total : </td>
+                                <td class="text-end">{{formatMoney(subtotal)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="d-grid gap-2 mt-4" >
+                    <button @click="openConfirm()" class="btn btn-info" type="button">CONFIRM APPOINTMENT</button>
+                </div>
             </div>
         </div>
-        <!-- <template v-slot:footer>
-            <b-button @click="hide()" variant="light" block>Cancel</b-button>
-            <b-button @click="save()" variant="primary" :disabled="form.processing" block>Confirm</b-button>
-        </template> -->
     </b-modal>
     <Confirm @message="hide()" ref="confirm"/>
+    <Tao @update="updateCart" ref="tao"/>
 </template>
 <script>
-import Confirm from '../../../Home/Client/Modals/Confirm.vue';
+import Tao from './Tao.vue';
+import Confirm from './Confirm.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
-    components: { Multiselect, Confirm },
+    components: { Multiselect, Confirm, Tao },
     props: ['categories'],
     data(){
         return {
+            currentUrl: window.location.origin,
             form: {},
             filter: {
                 keyword: null,
                 category: null
             },
             cart: [],
-            discount: 0,
+            services: [],
             subtotal: 0,
             total: 0,
             lists: false,
             showModal: false,
             editable: false,
         }
+    },
+    created(){
+        this.fetch();
     },
     watch: {
         "filter.category"(){
@@ -157,17 +135,37 @@ export default {
         show() {
             this.showModal = true;
         },
+        checkSearchStr: _.debounce(function(string) {
+            this.fetch();
+        }, 300),
+        fetch(page_url){
+            page_url = page_url || '/services';
+            axios.get(page_url,{
+                params : {
+                    keyword : this.filter.keyword,
+                    category: this.filter.category,
+                    option: 'services'
+                }
+            })
+            .then(response => {
+                if(response){
+                    this.services = response.data.data;       
+                }
+            })
+            .catch(err => console.log(err));
+        },
         addCart(data){
             const exst = this.cart.some(item => item.id === data.id);
             if(!exst){
-                this.cart.push(data);
-            }else{
-                
+                this.$refs.tao.show(data);
             }
+        },
+        updateCart(data){
+            this.cart.push(data);
             this.calculateTotalPrice();
         },
         openConfirm(){
-            this.$refs.confirm.new(this.cart,this.subtotal,this.discount,'walkin');
+            this.$refs.confirm.new(this.cart,this.subtotal,'walkin');
         },
         calculateTotalPrice() {
             this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);

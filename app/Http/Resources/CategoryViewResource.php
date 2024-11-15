@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DropdownResource extends JsonResource
+class CategoryViewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,7 +22,6 @@ class DropdownResource extends JsonResource
             'type' => $this->type,
             'color' => $this->color,
             'others' => $this->others,
-            'services' => $this->services,
             'aestheticians' => AestheticianResource::collection($this->aestheticians)
         ];
     }
