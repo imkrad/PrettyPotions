@@ -311,9 +311,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _View_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./View.vue */ "./resources/js/Pages/Modules/Aestheticians/View.vue");
 /* harmony import */ var _Create_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue */ "./resources/js/Pages/Modules/Aestheticians/Create.vue");
-/* harmony import */ var _vueform_multiselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vueform/multiselect */ "./node_modules/@vueform/multiselect/dist/multiselect.mjs");
-/* harmony import */ var _vueform_multiselect_themes_default_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @vueform/multiselect/themes/default.css */ "./node_modules/@vueform/multiselect/themes/default.css");
-/* harmony import */ var _Shared_Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Shared/Components/Pagination.vue */ "./resources/js/Shared/Components/Pagination.vue");
+/* harmony import */ var _Update_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Update.vue */ "./resources/js/Pages/Modules/Aestheticians/Update.vue");
+/* harmony import */ var _vueform_multiselect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @vueform/multiselect */ "./node_modules/@vueform/multiselect/dist/multiselect.mjs");
+/* harmony import */ var _vueform_multiselect_themes_default_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @vueform/multiselect/themes/default.css */ "./node_modules/@vueform/multiselect/themes/default.css");
+/* harmony import */ var _Shared_Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Shared/Components/Pagination.vue */ "./resources/js/Shared/Components/Pagination.vue");
+
 
 
 
@@ -322,10 +324,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['categories', 'specialists', 'users'],
   components: {
-    Pagination: _Shared_Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Multiselect: _vueform_multiselect__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Pagination: _Shared_Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Multiselect: _vueform_multiselect__WEBPACK_IMPORTED_MODULE_3__["default"],
     Create: _Create_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    View: _View_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    View: _View_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Update: _Update_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -380,13 +383,78 @@ __webpack_require__.r(__webpack_exports__);
     openView: function openView(data) {
       this.$refs.view.show(data);
     },
-    openEdit: function openEdit(data, index) {
-      this.type = 'edit';
-      this.index = index;
-      this.$refs.create.edit(data);
+    openEdit: function openEdit(data) {
+      this.$refs.update.show(data);
     },
     refresh: function refresh() {
       this.fetch();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _vueform_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect */ "./node_modules/@vueform/multiselect/dist/multiselect.mjs");
+/* harmony import */ var _vueform_multiselect_themes_default_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vueform/multiselect/themes/default.css */ "./node_modules/@vueform/multiselect/themes/default.css");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Multiselect: _vueform_multiselect__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: ['options'],
+  data: function data() {
+    return {
+      selected: null,
+      form: {},
+      showModal: false,
+      editable: false
+    };
+  },
+  computed: {
+    fullName: function fullName() {
+      // Accessing firstname and lastname from the selected user
+      var _this$selected$user$p = this.selected.user.profile,
+        firstname = _this$selected$user$p.firstname,
+        lastname = _this$selected$user$p.lastname;
+
+      // Return the full name with a space in between
+      return "".concat(firstname, " ").concat(lastname);
+    }
+  },
+  methods: {
+    show: function show(data) {
+      this.selected = data;
+      this.showModal = true;
+    },
+    create: function create() {
+      var _this = this;
+      this.form = this.$inertia.form({
+        id: this.selected.id,
+        is_active: this.selected.is_active ? 0 : 1
+      });
+      this.form.put('/aestheticians/update', {
+        preserveScroll: true,
+        onSuccess: function onSuccess(response) {
+          _this.hide();
+        }
+      });
+    },
+    hide: function hide() {
+      this.$parent.fetch();
+      this.editable = false;
+      this.showModal = false;
     }
   }
 });
@@ -946,10 +1014,10 @@ __webpack_require__.r(__webpack_exports__);
         keyword: null,
         category: null
       },
+      form: {},
       cart: [],
       services: [],
       discount: 0,
-      subtotal: 0,
       total: 0,
       lists: false,
       neww: false
@@ -970,8 +1038,16 @@ __webpack_require__.r(__webpack_exports__);
       this.checkSearchStr(newVal);
     }
   },
-  mounted: function mounted() {
-    this.calculateTotalPrice();
+  computed: {
+    subtotal: function subtotal() {
+      return this.bookings.data.reduce(function (total, booking) {
+        // Check if booking and service.price exist before adding
+        if (booking.service && booking.service.price) {
+          return total + parseFloat(booking.service.price);
+        }
+        return total;
+      }, 0);
+    }
   },
   methods: {
     checkSearchStr: _.debounce(function (string) {
@@ -1003,6 +1079,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     updateCart: function updateCart(data) {
+      alert('wew');
       this.cart.push(data);
       this.calculateTotalPrice();
     },
@@ -1024,8 +1101,20 @@ __webpack_require__.r(__webpack_exports__);
       var val = (value / 1).toFixed(2).replace(',', '.');
       return '₱' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
-    removeCart: function removeCart(index) {
-      this.cart.splice(this.cart.indexOf(index), 1);
+    removeCart: function removeCart(list) {
+      var _this2 = this;
+      // this.cart.splice(this.cart.indexOf(index), 1);
+      this.form = this.$inertia.form({
+        id: list.id,
+        option: 'delete'
+      });
+      this.form.post('/booking', {
+        preserveScroll: true,
+        onSuccess: function onSuccess(response) {
+          _this2.$emit('message', true);
+          _this2.hide();
+        }
+      });
     },
     update: function update() {
       this.cart = [];
@@ -1215,7 +1304,7 @@ __webpack_require__.r(__webpack_exports__);
       cart: {},
       aestheticians: [],
       showModal: false,
-      notBeforeToday: new Date(new Date().valueOf() + 1000 * 3600 * 24).toISOString().split('T')[0],
+      // notBeforeToday: new Date((new Date()).valueOf() + 1000*3600*24).toISOString().split('T')[0],
       times: [{
         text: '8:00 AM',
         value: '8:00 AM'
@@ -1255,6 +1344,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     time: function time(newTime) {
       this.checkAndFetch();
+    }
+  },
+  computed: {
+    notBeforeToday: function notBeforeToday() {
+      return new Date().toISOString().split('T')[0];
     }
   },
   methods: {
@@ -1873,12 +1967,22 @@ __webpack_require__.r(__webpack_exports__);
       },
       cart: [],
       services: [],
-      subtotal: 0,
       total: 0,
       lists: false,
       showModal: false,
       editable: false
     };
+  },
+  computed: {
+    subtotal: function subtotal() {
+      return this.cart.reduce(function (total, booking) {
+        // Check if booking and service.price exist before adding
+        if (booking && booking.price) {
+          return total + parseFloat(booking.price);
+        }
+        return total;
+      }, 0);
+    }
   },
   created: function created() {
     this.fetch();
@@ -1926,15 +2030,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateCart: function updateCart(data) {
       this.cart.push(data);
-      this.calculateTotalPrice();
     },
     openConfirm: function openConfirm() {
       this.$refs.confirm["new"](this.cart, this.subtotal, 'walkin');
-    },
-    calculateTotalPrice: function calculateTotalPrice() {
-      this.subtotal = this.cart.reduce(function (total, item) {
-        return total + parseFloat(item.price);
-      }, 0);
     },
     formatMoney: function formatMoney(value) {
       var val = (value / 1).toFixed(2).replace(',', '.');
@@ -2076,7 +2174,7 @@ __webpack_require__.r(__webpack_exports__);
       cart: {},
       aestheticians: [],
       showModal: false,
-      notBeforeToday: new Date(new Date().valueOf() + 1000 * 3600 * 24).toISOString().split('T')[0],
+      notBeforeToday: new Date().toISOString().split('T')[0],
       times: [{
         text: '8:00 AM',
         value: '8:00 AM'
@@ -2157,6 +2255,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('update', this.cart);
       this.cart = {};
       this.selected = null;
+      this.date = null;
+      this.time = null;
       this.aesthetician = null;
       this.showModal = false;
       this.hide();
@@ -4629,6 +4729,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Pagination");
   var _component_Create = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Create");
   var _component_View = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("View");
+  var _component_Update = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Update");
   var _directive_b_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("b-tooltip");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_b_row, {
     "class": "g-2 mb-2"
@@ -4740,7 +4841,117 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "create"
   }, null, 8 /* PROPS */, ["specialists", "users", "categories"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_View, {
     ref: "view"
+  }, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Update, {
+    ref: "update"
   }, null, 512 /* NEED_PATCH */)], 64 /* STABLE_FRAGMENT */);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=template&id=6894f920":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=template&id=6894f920 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "row customerform"
+};
+var _hoisted_2 = {
+  "class": "col-md-12 mt-2"
+};
+var _hoisted_3 = {
+  "class": "form-group"
+};
+var _hoisted_4 = {
+  "class": "col-md-12 mt-2"
+};
+var _hoisted_5 = {
+  key: 0,
+  "class": "alert alert-success",
+  role: "alert"
+};
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Active.", -1 /* HOISTED */);
+var _hoisted_7 = {
+  key: 1,
+  "class": "alert alert-danger",
+  role: "alert"
+};
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Inactive.", -1 /* HOISTED */);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+  var _component_b_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-form");
+  var _component_b_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-button");
+  var _component_b_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("b-modal");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_b_modal, {
+    modelValue: $data.showModal,
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.showModal = $event;
+    }),
+    title: "Update Status",
+    style: {
+      "--vz-modal-width": "600px"
+    },
+    "header-class": "p-3 bg-light",
+    "class": "v-modal-custom",
+    "modal-class": "zoomIn",
+    centered: "",
+    "no-close-on-backdrop": ""
+  }, {
+    footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_b_button, {
+        onClick: _cache[1] || (_cache[1] = function ($event) {
+          return $options.hide();
+        }),
+        variant: "light",
+        block: ""
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cancel")];
+        }),
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_b_button, {
+        onClick: _cache[2] || (_cache[2] = function ($event) {
+          return $options.create('ok');
+        }),
+        variant: "primary",
+        disabled: $data.form.processing,
+        block: ""
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Save")];
+        }),
+        _: 1 /* STABLE */
+      }, 8 /* PROPS */, ["disabled"])];
+    }),
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [$data.selected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_b_form, {
+        key: 0,
+        "class": "customform mb-2"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+            type: "text",
+            "class": "form-control",
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+              return $options.fullName = $event;
+            }),
+            readonly: ""
+          }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $options.fullName]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [!_this.selected.is_active ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Set service as "), _hoisted_6])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Set service as "), _hoisted_8]))])])];
+        }),
+        _: 1 /* STABLE */
+      })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["modelValue"]);
 }
 
 /***/ }),
@@ -6578,7 +6789,7 @@ var _hoisted_38 = {
   "class": "fs-11 text-muted"
 };
 var _hoisted_39 = {
-  "class": "text-end fs-12"
+  "class": "text-center fs-12"
 };
 var _hoisted_40 = {
   "class": "text-end"
@@ -6791,7 +7002,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([list.is_active == 0 ? 'table-warnings' : ''])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1) + ".", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.service.service) + " ", 1 /* TEXT */), list.service.description != 'n/a' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_37, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.service.description) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), list.aesthetician ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.aesthetician.user.profile.firstname) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.aesthetician.user.profile.lastname), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-if=\"list.description != 'n/a'\" class=\"fs-11 text-muted\">({{list.description}})</span>  ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney(list.service.price)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_b_button, {
       onClick: function onClick($event) {
-        return $options.removeCart(index);
+        return $options.removeCart(list);
       },
       variant: "soft-danger",
       title: "Remove",
@@ -6805,7 +7016,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])), [[_directive_b_tooltip, void 0, void 0, {
       hover: true
     }]])])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($data.subtotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <tr class=\"table-light text-muted fs-12\">\n                                            <td colspan=\"3\">Discount : </td>\n                                            <td class=\"text-end\">{{formatMoney(discount)}}</td>\n                                        </tr> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($data.subtotal)), 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($options.subtotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <tr class=\"table-light text-muted fs-12\">\n                                            <td colspan=\"3\">Discount : </td>\n                                            <td class=\"text-end\">{{formatMoney(discount)}}</td>\n                                        </tr> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($options.subtotal)), 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return $options.openConfirm();
     }),
@@ -7342,7 +7553,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "class": "haveerror"
           }, null, 8 /* PROPS */, _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
             type: "date",
-            min: $data.notBeforeToday,
+            min: $options.notBeforeToday,
             "class": "form-control",
             "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
               return $data.date = $event;
@@ -8605,7 +8816,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: index,
           "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([list.is_active == 0 ? 'table-warnings' : ''])
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1) + ".", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.service) + " ", 1 /* TEXT */), list.description != 'n/a' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.description) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.aesthetician.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney(list.price)), 1 /* TEXT */)], 2 /* CLASS */);
-      }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($data.subtotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <tr class=\"table-light text-muted fs-12\">\n                                <td colspan=\"2\">Discount : </td>\n                                <td class=\"text-end\">{{formatMoney(discount)}}</td>\n                            </tr> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($data.subtotal)), 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($options.subtotal)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <tr class=\"table-light text-muted fs-12\">\n                                <td colspan=\"2\">Discount : </td>\n                                <td class=\"text-end\">{{formatMoney(discount)}}</td>\n                            </tr> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatMoney($options.subtotal)), 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: _cache[2] || (_cache[2] = function ($event) {
           return $options.openConfirm();
         }),
@@ -12516,6 +12727,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Modules/Aestheticians/Update.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/Pages/Modules/Aestheticians/Update.vue ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Update_vue_vue_type_template_id_6894f920__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Update.vue?vue&type=template&id=6894f920 */ "./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=template&id=6894f920");
+/* harmony import */ var _Update_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Update.vue?vue&type=script&lang=js */ "./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=script&lang=js");
+/* harmony import */ var D_Herd_PrettyPotions_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,D_Herd_PrettyPotions_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Update_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Update_vue_vue_type_template_id_6894f920__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/Pages/Modules/Aestheticians/Update.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Modules/Aestheticians/View.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/Pages/Modules/Aestheticians/View.vue ***!
@@ -13597,6 +13836,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=script&lang=js":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Update_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Update_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Update.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Modules/Aestheticians/View.vue?vue&type=script&lang=js":
 /*!***********************************************************************************!*\
   !*** ./resources/js/Pages/Modules/Aestheticians/View.vue?vue&type=script&lang=js ***!
@@ -14217,6 +14472,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Index_vue_vue_type_template_id_36d7c44b_lang_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Index_vue_vue_type_template_id_36d7c44b_lang_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Index.vue?vue&type=template&id=36d7c44b&lang=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Index.vue?vue&type=template&id=36d7c44b&lang=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=template&id=6894f920":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=template&id=6894f920 ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Update_vue_vue_type_template_id_6894f920__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Update_vue_vue_type_template_id_6894f920__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Update.vue?vue&type=template&id=6894f920 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Modules/Aestheticians/Update.vue?vue&type=template&id=6894f920");
 
 
 /***/ }),
@@ -14852,6 +15123,8 @@ var map = {
 	"./Modules/Aestheticians/Create.vue": "./resources/js/Pages/Modules/Aestheticians/Create.vue",
 	"./Modules/Aestheticians/Index": "./resources/js/Pages/Modules/Aestheticians/Index.vue",
 	"./Modules/Aestheticians/Index.vue": "./resources/js/Pages/Modules/Aestheticians/Index.vue",
+	"./Modules/Aestheticians/Update": "./resources/js/Pages/Modules/Aestheticians/Update.vue",
+	"./Modules/Aestheticians/Update.vue": "./resources/js/Pages/Modules/Aestheticians/Update.vue",
 	"./Modules/Aestheticians/View": "./resources/js/Pages/Modules/Aestheticians/View.vue",
 	"./Modules/Aestheticians/View.vue": "./resources/js/Pages/Modules/Aestheticians/View.vue",
 	"./Modules/Appointments/Create": "./resources/js/Pages/Modules/Appointments/Create.vue",

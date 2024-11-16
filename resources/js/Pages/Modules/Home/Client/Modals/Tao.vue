@@ -56,7 +56,7 @@ export default {
             cart: {},
             aestheticians: [],
             showModal: false,
-            notBeforeToday: new Date((new Date()).valueOf() + 1000*3600*24).toISOString().split('T')[0],
+            // notBeforeToday: new Date((new Date()).valueOf() + 1000*3600*24).toISOString().split('T')[0],
             times:[
                 { text:'8:00 AM', value: '8:00 AM' },
                 { text:'9:00 AM', value: '9:00 AM' },
@@ -77,6 +77,11 @@ export default {
         },
         time(newTime) {
             this.checkAndFetch();
+        }
+    },
+    computed: {
+        notBeforeToday() {
+            return new Date().toISOString().split('T')[0];
         }
     },
     methods : {

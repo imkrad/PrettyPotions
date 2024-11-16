@@ -78,9 +78,9 @@
                                                 <!-- <span v-if="list.description != 'n/a'" class="fs-11 text-muted">({{list.description}})</span>  -->
                                                 
                                             </td>
-                                            <td class="text-end fs-12">{{formatMoney(list.service.price)}}</td>
+                                            <td class="text-center fs-12">{{formatMoney(list.service.price)}}</td>
                                             <td class="text-end">
-                                                <b-button @click="removeCart(index)" variant="soft-danger" v-b-tooltip.hover title="Remove" size="sm" class="remove-list me-1">
+                                                <b-button @click="removeCart(list)" variant="soft-danger" v-b-tooltip.hover title="Remove" size="sm" class="remove-list me-1">
                                                     <i class="ri-delete-bin-fill align-bottom"></i>
                                                 </b-button>
                                             </td>
@@ -195,10 +195,10 @@ export default {
                 keyword: null,
                 category: null
             },
+            form: {},
             cart: [],
             services: [],
             discount: 0,
-            subtotal: 0,
             total: 0,
             lists: false,
             neww: false
@@ -219,8 +219,16 @@ export default {
             this.checkSearchStr(newVal)
         },
     },
-    mounted() {
-        this.calculateTotalPrice();
+    computed: {
+        subtotal() {
+            return this.bookings.data.reduce((total, booking) => {
+                // Check if booking and service.price exist before adding
+                if (booking.service && booking.service.price) {
+                return total + parseFloat(booking.service.price);
+                }
+                return total;
+            }, 0);
+        }
     },
     methods: {
         checkSearchStr: _.debounce(function(string) {
@@ -249,6 +257,7 @@ export default {
             }
         },
         updateCart(data){
+            alert('wew');
             this.cart.push(data);
             this.calculateTotalPrice();
         },
@@ -268,8 +277,20 @@ export default {
             let val = (value/1).toFixed(2).replace(',', '.')
             return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
-        removeCart(index){
-            this.cart.splice(this.cart.indexOf(index), 1);
+        removeCart(list){
+            // this.cart.splice(this.cart.indexOf(index), 1);
+            this.form = this.$inertia.form({
+                id: list.id,
+                option: 'delete'
+            });
+
+            this.form.post('/booking',{
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    this.$emit('message',true);
+                    this.hide();
+                },
+            });
         },
         update(){
             this.cart = [];

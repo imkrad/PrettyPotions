@@ -77,16 +77,18 @@
     </div>
     <Create :specialists="specialists.data" :users="users.data" :categories="categories.data" ref="create"/>
     <View ref="view"/>
+    <Update ref="update"/>
 </template>
 <script>
 import View from './View.vue';
 import Create from './Create.vue';
+import Update from './Update.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
     props: ['categories','specialists','users'],
-    components: { Pagination, Multiselect, Create, View },
+    components: { Pagination, Multiselect, Create, View, Update },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -139,10 +141,8 @@ export default {
         openView(data){
             this.$refs.view.show(data);
         },
-        openEdit(data,index){
-            this.type = 'edit';
-            this.index = index;
-            this.$refs.create.edit(data);
+        openEdit(data){
+            this.$refs.update.show(data);
         },
         refresh(){
             this.fetch();

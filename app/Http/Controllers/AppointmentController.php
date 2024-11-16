@@ -218,17 +218,20 @@ class AppointmentController extends Controller
                 'status' => true,
             ]);
         }else if($request->option == 'Cancel'){
-            $a = Appointment::findOrFail($request->id);
+            $a = Appointment::with('lists.service')->where('id',$request->id)->first();
             $a->status_id = $request->status_id;
             $a->save();
 
+            foreach($a->lists as $list){
+                $serviceMessages[] = "{$list->service->service} ({$list->date})";
+            }
             if($a){
                 $data = AppointmentReason::create([
                     'appointment_id' => $request->id,
                     'reason' => $request->reason,
                     'user_id' => \Auth::user()->id
                 ]);
-
+                $content = 'Booking Cancellation Notice, We\'re sorry to inform you that your booking for '.implode(', ', $serviceMessages).' Pretty Potions has been canceled. If you have any questions or would like to reschedule, please contact us at 0995-513-6602. We apologize for any inconvenience this may have caused and appreciate your understanding.';
                 if($data){
                     $client = new Client();
                     $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
@@ -237,7 +240,7 @@ class AppointmentController extends Controller
                             'apipassword' => 'APIJLHNMMIQBJJLHNM',
                             'senderid' => 'TEST',
                             'mobileno' => \Auth::user()->profile->mobile,
-                            'message' => $request->reason,
+                            'message' => $content, //$request->reason
                             'languagetype' => 1
                         ]
                     ]);
@@ -252,31 +255,33 @@ class AppointmentController extends Controller
                 }
             }
         }else if($request->option == 'Confirm'){
-            $a = Appointment::findOrFail($request->id);
+            $a = Appointment::with('lists.service')->where('id',$request->id)->first();
             $a->status_id = $request->status_id;
             $a->save();
-
+            foreach($a->lists as $list){
+                $serviceMessages[] = "{$list->service->service} ({$list->date})";
+            }
             if($a){
-            
-            $client = new Client();
-            $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
-                'query' => [
-                    'apiusername' => 'APIJLHNMMIQBJ',
-                    'apipassword' => 'APIJLHNMMIQBJJLHNM',
-                    'senderid' => 'TEST',
-                    'mobileno' => \Auth::user()->profile->mobile,
-                    'message' => $request->reason,
-                    'languagetype' => 1
-                ]
-            ]);
-            $response = json_decode($result->getBody()->getContents());
+                $content = 'Thank you for choosing Pretty Potions. Your reservation for '.implode(', ', $serviceMessages).' has been successfully confirmed. If you have any questions or need to make changes, please contact us at 0995-513-6602. We look forward to serving you!';
+                $client = new Client();
+                $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                    'query' => [
+                        'apiusername' => 'APIJLHNMMIQBJ',
+                        'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                        'senderid' => 'TEST',
+                        'mobileno' => \Auth::user()->profile->mobile,
+                        'message' => $request->reason,
+                        'languagetype' => 1
+                    ]
+                ]);
+                $response = json_decode($result->getBody()->getContents());
 
-            return back()->with([
-                'data' => '',
-                'message' => 'Appointment confirmed successfully.',
-                'info' => '-',
-                'status' => true,
-            ]);
+                return back()->with([
+                    'data' => '',
+                    'message' => 'Appointment confirmed successfully.',
+                    'info' => '-',
+                    'status' => true,
+                ]);
                
             }
         }else if($request->option == 'service'){

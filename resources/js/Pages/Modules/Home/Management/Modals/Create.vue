@@ -112,11 +112,21 @@ export default {
             },
             cart: [],
             services: [],
-            subtotal: 0,
             total: 0,
             lists: false,
             showModal: false,
             editable: false,
+        }
+    },
+    computed: {
+        subtotal() {
+            return this.cart.reduce((total, booking) => {
+                // Check if booking and service.price exist before adding
+                if (booking && booking.price) {
+                return total + parseFloat(booking.price);
+                }
+                return total;
+            }, 0);
         }
     },
     created(){
@@ -162,13 +172,9 @@ export default {
         },
         updateCart(data){
             this.cart.push(data);
-            this.calculateTotalPrice();
         },
         openConfirm(){
             this.$refs.confirm.new(this.cart,this.subtotal,'walkin');
-        },
-        calculateTotalPrice() {
-            this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);
         },
         formatMoney(value) {
             let val = (value/1).toFixed(2).replace(',', '.')

@@ -92,4 +92,16 @@ class AestheticianController extends Controller
         );
         return $data;
     }
+
+    public function update(Request $request){
+        $data = Aesthetician::findOrFail($request->id);
+        $data->update($request->except('editable'));
+
+        return back()->with([
+            'data' => $data,
+            'message' => 'Aesthetician updated successfully.',
+            'info' => '-',
+            'status' => true,
+        ]);
+    }
 }
