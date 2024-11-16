@@ -135,11 +135,14 @@ export default {
     watch: {
         "filter.category"(){
             if(this.filter.category){
-                this.lists = true;
+                this.fetch();
             }else{
-                this.lists = false;
+                this.fetch();
             }
-        }
+        },
+        "filter.keyword"(newVal){
+            this.checkSearchStr(newVal)
+        },
     },
     methods : {
         show() {

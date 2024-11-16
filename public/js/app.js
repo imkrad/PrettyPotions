@@ -1990,10 +1990,13 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     "filter.category": function filterCategory() {
       if (this.filter.category) {
-        this.lists = true;
+        this.fetch();
       } else {
-        this.lists = false;
+        this.fetch();
       }
+    },
+    "filter.keyword": function filterKeyword(newVal) {
+      this.checkSearchStr(newVal);
     }
   },
   methods: {
