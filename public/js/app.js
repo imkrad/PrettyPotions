@@ -2174,7 +2174,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     image: function image(img) {
-      var link = img == 'avatar.jpg' ? '/imagess/avatar.jpg' : img;
+      var link = img == 'avatar.jpg' ? '/imagess/avatar.jpg' : '/storage/' + img;
       return this.currentUrl + '/' + link;
     },
     addCart: function addCart(data) {
