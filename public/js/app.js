@@ -1921,7 +1921,7 @@ __webpack_require__.r(__webpack_exports__);
       this.booking.total = null;
       this.booking.subtotal = null;
       this.booking.discount = null;
-      this.booking.cart = null;
+      this.booking.cart = [];
       this.showModal = false;
     }
   }
@@ -8665,9 +8665,7 @@ var _hoisted_14 = {
   "class": "fs-14 mb-0 text-truncate"
 };
 var _hoisted_15 = {
-  "class": "",
-  href: "/apps/nft-item-detail",
-  target: "_self"
+  "class": ""
 };
 var _hoisted_16 = {
   "class": "text-muted"

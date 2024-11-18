@@ -142,7 +142,7 @@ export default {
             this.booking.total = null;
             this.booking.subtotal = null;
             this.booking.discount = null;
-            this.booking.cart = null;
+            this.booking.cart = [];
             this.showModal = false;
         }
     }
