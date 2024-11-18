@@ -122,6 +122,7 @@ class ServiceController extends Controller
             ->when($request->keyword, function ($query, $keyword) {
                 $query->where('service', 'LIKE', "%{$keyword}%");
             })
+            ->where('is_active',1)
             ->orderBy('category_id','asc')
             ->paginate($request->counts)
         );

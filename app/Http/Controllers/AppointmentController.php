@@ -226,33 +226,26 @@ class AppointmentController extends Controller
                 $serviceMessages[] = "{$list->service->service} ({$list->date})";
             }
             if($a){
-                $data = AppointmentReason::create([
-                    'appointment_id' => $request->id,
-                    'reason' => $request->reason,
-                    'user_id' => \Auth::user()->id
-                ]);
                 $content = 'Booking Cancellation Notice, We\'re sorry to inform you that your booking for '.implode(', ', $serviceMessages).' Pretty Potions has been canceled. If you have any questions or would like to reschedule, please contact us at 0995-513-6602. We apologize for any inconvenience this may have caused and appreciate your understanding.';
-                if($data){
-                    $client = new Client();
-                    $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
-                        'query' => [
-                            'apiusername' => 'APIJLHNMMIQBJ',
-                            'apipassword' => 'APIJLHNMMIQBJJLHNM',
-                            'senderid' => 'TEST',
-                            'mobileno' => \Auth::user()->profile->mobile,
-                            'message' => $content, //$request->reason
-                            'languagetype' => 1
-                        ]
-                    ]);
-                    $response = json_decode($result->getBody()->getContents());
+                $client = new Client();
+                $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                    'query' => [
+                        'apiusername' => 'APIJLHNMMIQBJ',
+                        'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                        'senderid' => 'TEST',
+                        'mobileno' => \Auth::user()->profile->mobile,
+                        'message' => $content, //$request->reason
+                        'languagetype' => 1
+                    ]
+                ]);
+                $response = json_decode($result->getBody()->getContents());
 
-                    return back()->with([
-                        'data' => '',
-                        'message' => 'Appointment cancelled successfully.',
-                        'info' => '-',
-                        'status' => true,
-                    ]);
-                }
+                return back()->with([
+                    'data' => '',
+                    'message' => 'Appointment cancelled successfully.',
+                    'info' => '-',
+                    'status' => true,
+                ]);
             }
         }else if($request->option == 'Confirm'){
             $a = Appointment::with('lists.service')->where('id',$request->id)->first();

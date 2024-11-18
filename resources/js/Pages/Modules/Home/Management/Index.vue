@@ -69,7 +69,7 @@
                     <BCard no-body class="mb-1" v-for="(item, index) of appointments.incoming" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
-                                <button type="button" @click="openNotify(item)" class="btn btn-info float-end">Notify</button>
+                                <!-- <button type="button" @click="openNotify(item)" class="btn btn-info float-end">Notify</button> -->
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
                                     <p class="fs-12 text-muted mb-n1">Created At : {{item.created_at}}</p>

@@ -64,8 +64,11 @@
                                         <b-button @click="openEdit(list)" variant="soft-warning" v-b-tooltip.hover title="Edit" size="sm" class="edit-list me-1">
                                             <i class="ri-pencil-fill align-bottom"></i>
                                         </b-button>
-                                        <b-button @click="openUpdate(list)" variant="soft-primary" v-b-tooltip.hover title="View" size="sm" class="edit-list">
+                                        <b-button @click="openUpdate(list)" variant="soft-primary" v-b-tooltip.hover title="View" size="sm" class="edit-list me-1">
                                             <i class="ri-eye-fill align-bottom"></i>
+                                        </b-button>
+                                        <b-button @click="openImage(list)" variant="soft-success" v-b-tooltip.hover title="Image" size="sm" class="edit-list">
+                                            <i class="ri-image-fill align-bottom"></i>
                                         </b-button>
                                     </td>
                                 </tr>
@@ -79,16 +82,18 @@
     </div>
     <Create :options="categories.data" ref="create"/>
     <Update ref="update"/>
+    <Image ref="image"/>
 </template>
 <script>
 import Create from './Create.vue';
 import Update from './Update.vue';
+import Image from './Image.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
     props: ['categories'],
-    components: { Pagination, Multiselect, Create, Update },
+    components: { Pagination, Multiselect, Create, Update, Image },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -140,6 +145,9 @@ export default {
         },
         openEdit(data){
             this.$refs.create.edit(data);
+        },
+        openImage(data){
+            this.$refs.image.show(data);
         },
         openUpdate(data){
             this.$refs.update.show(data);

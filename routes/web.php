@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::resource('/booking', App\Http\Controllers\BookingController::class);
+    Route::post('/profile', [App\Http\Controllers\HomeController::class, 'store']);
 });
 
 require __DIR__.'/authentication.php';

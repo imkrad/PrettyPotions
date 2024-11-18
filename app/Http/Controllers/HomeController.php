@@ -176,4 +176,27 @@ class HomeController extends Controller
             'completed' => $completed
         ];
     }
+
+    public function store(Request $request){
+        $request->validate([
+            'image' => 'required|image|max:2048' // Assuming maximum file size is 2MB
+        ]);
+        
+        $data = Service::where('id',$request->id)->first();
+        $imagePath = $request->file('image')->store('services', 'public');
+        $data->image = $imagePath;
+        $data->save();
+
+        // return response()->json([
+        //     'message' => 'Files uploaded successfully',
+        //     'file_paths' => $imagePath,
+        // ], 200);
+
+        return back()->with([
+            'data' => $data,
+            'message' => 'Image updated successfully.',
+            'info' => '-',
+            'status' => true,
+        ]);
+    }
 }

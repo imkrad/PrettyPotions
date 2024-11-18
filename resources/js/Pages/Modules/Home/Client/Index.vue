@@ -16,7 +16,7 @@
                                 <b-col md="4">
                                     <Multiselect class="form-control" v-model="filter.category" 
                                     :close-on-select="true" placeholder="Select Category"
-                                    :searchable="true" :create-option="true" object="true"
+                                    :searchable="true" :create-option="true" 
                                     :options="categories.data" label="name" track-by="name"/>
                                 </b-col>
 

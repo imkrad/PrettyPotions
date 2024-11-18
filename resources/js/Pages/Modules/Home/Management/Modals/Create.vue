@@ -156,7 +156,7 @@ export default {
             axios.get(page_url,{
                 params : {
                     keyword : this.filter.keyword,
-                    category: this.filter.category,
+                    category: (this.filter.category) ? this.filter.category.value : null,
                     option: 'services'
                 }
             })
