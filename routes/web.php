@@ -20,13 +20,13 @@ Route::resource('/staffs', App\Http\Controllers\StaffController::class);
 Route::middleware(['auth'])->group(function () {
     Route::resource('/home', App\Http\Controllers\HomeController::class);
 
-    Route::middleware([RoleMiddleware::class])->group(function () {
+    // Route::middleware([RoleMiddleware::class])->group(function () {
         Route::resource('/services', App\Http\Controllers\ServiceController::class);
         Route::resource('/clients', App\Http\Controllers\ClientController::class);
         Route::resource('/aestheticians', App\Http\Controllers\AestheticianController::class);
         Route::resource('/appointments', App\Http\Controllers\AppointmentController::class);
         Route::resource('/reviews', App\Http\Controllers\ReviewController::class);
-    });
+    // });
 
     Route::resource('/booking', App\Http\Controllers\BookingController::class);
     Route::post('/profile', [App\Http\Controllers\HomeController::class, 'store']);

@@ -169,7 +169,7 @@ export default {
             .catch(err => console.log(err));
         },
         image(img){
-            let link = (img == 'avatar.jpg') ? '/imagess/avatar.jpg' : img;
+            let link = (img == 'avatar.jpg') ? '/imagess/avatar.jpg' : '/storage/'+img;
             return this.currentUrl+'/'+link;
         },
         addCart(data){
