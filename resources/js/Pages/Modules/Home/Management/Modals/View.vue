@@ -22,11 +22,11 @@
             <table class="table table-nowrap align-middle mb-0">
                 <thead class="table-light">
                     <tr class="fs-11">
-                        <th style="width: 50%;">Service</th>
+                        <th style="width: 40%;">Service</th>
                         <th class="text-center">Aesthetician</th>
                         <th class="text-center">Date</th>
                         <th class="text-center" v-if="selected.status.name == 'Ongoing'">Status</th>
-                        <th style="width: 25%;" :class="(selected.status.name == 'Pending') ? 'text-center' : 'text-end'">Price</th>
+                        <th :class="(selected.status.name == 'Pending') ? 'text-center' : 'text-end'">Price</th>
                         <th v-if="selected.status.name == 'Pending'"></th>
                     </tr>
                 </thead>
@@ -96,7 +96,7 @@
             <b-button v-if="selected.status.name === 'Completed'" @click="hide()" variant="light" block>Close</b-button>
         </template>
     </b-modal>
-    <More @message="update" ref="more"/>
+    <More @update="handleUpdate" ref="more"/>
     <A @message="update" ref="a"/>
     <C @update="hide" ref="confirm"/>
 </template>
@@ -168,7 +168,7 @@ export default {
             this.showModal = false;
         },
         addMore(){
-            this.$refs.more.show(this.selected.lists,this.selected.id,this.selected.date);
+            this.$refs.more.show(this.selected.id);
         },
         removeCart(index,id,service){
             this.form = this.$inertia.form({
@@ -185,8 +185,8 @@ export default {
             });
             this.selected.lists.splice(this.selected.lists.indexOf(index), 1);
         },
-        update(data){
-            this.selected = data;
+        handleUpdate(data){
+            this.selected.lists = data;
         },
         addA(id,category_id,appointment_id){
             this.$refs.a.show(id,category_id,appointment_id);

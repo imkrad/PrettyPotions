@@ -1,18 +1,18 @@
 <template lang="">
    <div class="row">
-        <div class="col-xl-12">
+        <div class="col-xl-12 mt-n2">
             <div class="card crm-widget">
                 <div class="card-body p-0">
                     <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 g-0">
                         <div class="col" v-for="(item, index) of counts" :key="index">
-                            <div class="py-4 px-3">
+                            <div class="py-3 px-3">
                                 <h5 class="text-muted text-uppercase fs-13">{{item.name}} <i class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"></i></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
-                                        <i :class="item.icon" class="display-6 text-muted cfs-22"></i>
+                                        <i :class="item.icon" class="display-6 text-muted fs-18"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h2 class="mb-0 cfs-22">
+                                        <h2 class="mb-0 fs-20">
                                             <span v-if="!item.money" class="counter-value" data-target="197">{{item.total}}</span>
                                             <span v-else class="counter-value" data-target="197">{{formatMoney(item.total)}}</span>
                                         </h2>
@@ -40,15 +40,15 @@
                 </div>
             </div>
 
-            <BRow class="row-cols-xxl-4 mt-n2">
+            <BRow class="row-cols-xxl-4 mt-n4 g-3">
                 <BCol>
-                    <BCard no-body>
+                    <BCard no-body class="mb-3">
                         <BLink class="card-header bg-warning-subtle" role="button">
                             <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Pending Appointments</h5>
                             <p class="text-muted mb-0">{{counts[0].total}} appointments</p>
                         </BLink>
                     </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) in paginatedAppointments" :key="index">
+                    <BCard no-body class="mb-1" v-for="(item, index) in pendingAppointments" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
@@ -58,41 +58,28 @@
                             </BLink>
                         </BCardBody>
                     </BCard>
-                    <div class="d-flex justify-content-center mt-2">
+                    <div class="d-flex justify-content-center mt-2" v-if="pendingAppointments.length > 0">
                         <ul class="pagination">
-                            <li class="page-item" @click="prevPage" :class="{'disabled': currentPage === 1}" :disabled="currentPage === 1" ><a class="page-link" href="#" target="_self" tabindex="-1">← &nbsp; Prev</a></li>
+                            <li class="page-item" @click="prevPage1" :class="{'disabled': currentPage1 === 1}" :disabled="currentPage1 === 1" ><a class="page-link" href="#" target="_self" tabindex="-1">← &nbsp; Prev</a></li>
                             <li class="page-item" 
-                                v-for="page in visiblePageNumbers" 
+                                v-for="page in visiblePageNumbers1" 
                                 :key="page" 
-                                @click="goToPage(page)" 
-                                :class="{'btn-primary': currentPage === page}">
+                                @click="goToPage1(page)" 
+                                :class="{'btn-primary': currentPage1 === page}">
                                 <a class="page-link" href="#" target="_self"> {{ page }}</a>
                             </li>
-                            <li class="page-item" @click="nextPage" :class="{'disabled': currentPage === totalPages}" :disabled="currentPage === totalPages"><a class="page-link" href="#" target="_self">Next &nbsp; →</a></li>
+                            <li class="page-item" @click="nextPage1" :class="{'disabled': currentPage1 === totalPages1}" :disabled="currentPage1 === totalPages1"><a class="page-link" href="#" target="_self">Next &nbsp; →</a></li>
                         </ul>
                     </div>
-                    <!-- <div class="d-flex justify-content-center mt-2">
-            <button class="btn btn-secondary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
-            <button 
-                class="btn btn-outline-primary mx-1" 
-                v-for="page in visiblePageNumbers" 
-                :key="page" 
-                @click="goToPage(page)" 
-                :class="{'btn-primary': currentPage === page}"
-            >
-                {{ page }}
-            </button>
-            <button class="btn btn-secondary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
-        </div> -->
                 </BCol>
                 <BCol>
-                    <BCard no-body>
+                    <BCard no-body class="mb-3">
                         <BLink class="card-header bg-info-subtle" role="button" v-b-toggle.leadDiscovered>
                             <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Incoming Appointments</h5>
                             <p class="text-muted mb-0">{{counts[1].total}} appointments</p>
                         </BLink>
                     </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) of appointments.incoming" :key="index">
+                    <BCard no-body class="mb-1" v-for="(item, index) of incomingAppointments" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <!-- <button type="button" @click="openNotify(item)" class="btn btn-info float-end">Notify</button> -->
@@ -103,15 +90,28 @@
                             </BLink>
                         </BCardBody>
                     </BCard>
+                    <div class="d-flex justify-content-center mt-2" v-if="incomingAppointments.length > 0">
+                        <ul class="pagination">
+                            <li class="page-item" @click="prevPage2" :class="{'disabled': currentPage2 === 1}" :disabled="currentPage2 === 1" ><a class="page-link" href="#" target="_self" tabindex="-1">← &nbsp; Prev</a></li>
+                            <li class="page-item" 
+                                v-for="page in visiblePageNumbers2" 
+                                :key="page" 
+                                @click="goToPage2(page)" 
+                                :class="{'btn-primary': currentPage2 === page}">
+                                <a class="page-link" href="#" target="_self"> {{ page }}</a>
+                            </li>
+                            <li class="page-item" @click="nextPage2" :class="{'disabled': currentPage2 === totalPages2}" :disabled="currentPage2 === totalPages2"><a class="page-link" href="#" target="_self">Next &nbsp; →</a></li>
+                        </ul>
+                    </div>
                 </BCol>
                 <BCol>
-                    <BCard no-body>
+                    <BCard no-body class="mb-3">
                         <BLink class="card-header bg-primary-subtle" role="button" v-b-toggle.leadDiscovered>
                             <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Ongoing Appointments</h5>
                             <p class="text-muted mb-0">{{counts[1].total}} appointments</p>
                         </BLink>
                     </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) of appointments.ongoing" :key="index">
+                    <BCard no-body class="mb-1" v-for="(item, index) of ongoingAppointments" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
@@ -121,15 +121,28 @@
                             </BLink>
                         </BCardBody>
                     </BCard>
+                    <div class="d-flex justify-content-center mt-2" v-if="ongoingAppointments.length > 0">
+                        <ul class="pagination">
+                            <li class="page-item" @click="prevPage3" :class="{'disabled': currentPage3 === 1}" :disabled="currentPage3 === 1" ><a class="page-link" href="#" target="_self" tabindex="-1">← &nbsp; Prev</a></li>
+                            <li class="page-item" 
+                                v-for="page in visiblePageNumbers3" 
+                                :key="page" 
+                                @click="goToPage3(page)" 
+                                :class="{'btn-primary': currentPage3 === page}">
+                                <a class="page-link" href="#" target="_self"> {{ page }}</a>
+                            </li>
+                            <li class="page-item" @click="nextPage3" :class="{'disabled': currentPage3 === totalPages3}" :disabled="currentPage3 === totalPages3"><a class="page-link" href="#" target="_self">Next &nbsp; →</a></li>
+                        </ul>
+                    </div>
                 </BCol>
                 <BCol>
-                    <BCard no-body>
+                    <BCard no-body class="mb-3">
                         <BLink class="card-header bg-success-subtle" role="button" v-b-toggle.leadDiscovered>
                             <h5 class="card-title text-uppercase fw-semibold mb-1 fs-12">Completed Appointments</h5>
                             <p class="text-muted mb-0">{{counts[2].total}} appointments</p>
                         </BLink>
                     </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) of appointments.completed" :key="index">
+                    <BCard no-body class="mb-1" v-for="(item, index) of completedAppointments" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
@@ -139,6 +152,19 @@
                             </BLink>
                         </BCardBody>
                     </BCard>
+                    <div class="d-flex justify-content-center mt-2" v-if="completedAppointments.length > 0">
+                        <ul class="pagination">
+                            <li class="page-item" @click="prevPage4" :class="{'disabled': currentPage4 === 1}" :disabled="currentPage4 === 1" ><a class="page-link" href="#" target="_self" tabindex="-1">← &nbsp; Prev</a></li>
+                            <li class="page-item" 
+                                v-for="page in visiblePageNumbers4" 
+                                :key="page" 
+                                @click="goToPage4(page)" 
+                                :class="{'btn-primary': currentPage4 === page}">
+                                <a class="page-link" href="#" target="_self"> {{ page }}</a>
+                            </li>
+                            <li class="page-item" @click="nextPage4" :class="{'disabled': currentPage4 === totalPages4}" :disabled="currentPage4 === totalPages4"><a class="page-link" href="#" target="_self">Next &nbsp; →</a></li>
+                        </ul>
+                    </div>
                 </BCol>
             </BRow>
         </div>
@@ -170,26 +196,101 @@ export default {
             subtotal: 0,
             total: 0,
             lists: false,
-            currentPage: 1,
+            currentPage1: 1,
+            currentPage2: 1,
+            currentPage3: 1,
+            currentPage4: 1,
             itemsPerPage: 5
         }
     },
     computed: {
-        paginatedAppointments() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
+        pendingAppointments() {
+            const start = (this.currentPage1 - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
             return this.appointments.pending.slice(start, end);
         },
-        totalPages() {
+        incomingAppointments() {
+            const start = (this.currentPage2 - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.appointments.incoming.slice(start, end);
+        },
+        ongoingAppointments() {
+            const start = (this.currentPage3 - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.appointments.ongoing.slice(start, end);
+        },
+        completedAppointments() {
+            const start = (this.currentPage4 - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.appointments.completed.slice(start, end);
+        },
+        totalPages1() {
             return Math.ceil(this.appointments.pending.length / this.itemsPerPage);
         },
-        visiblePageNumbers() {
+        totalPages2() {
+            return Math.ceil(this.appointments.incoming.length / this.itemsPerPage);
+        },
+        totalPages3() {
+            return Math.ceil(this.appointments.ongoing.length / this.itemsPerPage);
+        },
+        totalPages4() {
+            return Math.ceil(this.appointments.completed.length / this.itemsPerPage);
+        },
+        visiblePageNumbers1() {
             const maxVisible = 3;
-            let startPage = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
+            let startPage = Math.max(this.currentPage1 - Math.floor(maxVisible / 2), 1);
             let endPage = startPage + maxVisible - 1;
 
-            if (endPage > this.totalPages) {
-                endPage = this.totalPages;
+            if (endPage > this.totalPages1) {
+                endPage = this.totalPages1;
+                startPage = Math.max(endPage - maxVisible + 1, 1);
+            }
+
+            const pages = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+            return pages;
+        },
+        visiblePageNumbers2() {
+            const maxVisible = 3;
+            let startPage = Math.max(this.currentPage2 - Math.floor(maxVisible / 2), 1);
+            let endPage = startPage + maxVisible - 1;
+
+            if (endPage > this.totalPages2) {
+                endPage = this.totalPages2;
+                startPage = Math.max(endPage - maxVisible + 1, 1);
+            }
+
+            const pages = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+            return pages;
+        },
+        visiblePageNumbers3() {
+            const maxVisible = 3;
+            let startPage = Math.max(this.currentPage3 - Math.floor(maxVisible / 2), 1);
+            let endPage = startPage + maxVisible - 1;
+
+            if (endPage > this.totalPages3) {
+                endPage = this.totalPages3;
+                startPage = Math.max(endPage - maxVisible + 1, 1);
+            }
+
+            const pages = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+            return pages;
+        },
+        visiblePageNumbers4() {
+            const maxVisible = 3;
+            let startPage = Math.max(this.currentPage4 - Math.floor(maxVisible / 2), 1);
+            let endPage = startPage + maxVisible - 1;
+
+            if (endPage > this.totalPages4) {
+                endPage = this.totalPages4;
                 startPage = Math.max(endPage - maxVisible + 1, 1);
             }
 
@@ -201,18 +302,57 @@ export default {
         }
     },
     methods: {
-        nextPage() {
-            if (this.currentPage < this.totalPages) {
-                this.currentPage++;
+        nextPage1() {
+            if (this.currentPage1 < this.totalPages1) {
+                this.currentPage1++;
             }
         },
-        prevPage() {
-            if (this.currentPage > 1) {
-                this.currentPage--;
+        nextPage2() {
+            if (this.currentPage2 < this.totalPages2) {
+                this.currentPage2++;
             }
         },
-        goToPage(page) {
-            this.currentPage = page;
+        nextPage3() {
+            if (this.currentPage3 < this.totalPages3) {
+                this.currentPage3++;
+            }
+        },
+        nextPage4() {
+            if (this.currentPage4 < this.totalPages4) {
+                this.currentPage4++;
+            }
+        },
+        prevPage1() {
+            if (this.currentPage1 > 1) {
+                this.currentPage1--;
+            }
+        },
+        prevPage2() {
+            if (this.currentPage2 > 1) {
+                this.currentPage2--;
+            }
+        },
+        prevPage3() {
+            if (this.currentPage3 > 1) {
+                this.currentPage3--;
+            }
+        },
+        prevPage4() {
+            if (this.currentPage4 > 1) {
+                this.currentPage4--;
+            }
+        },
+        goToPage1(page) {
+            this.currentPage1 = page;
+        },
+        goToPage2(page) {
+            this.currentPage2 = page;
+        },
+        goToPage3(page) {
+            this.currentPage3 = page;
+        },
+        goToPage4(page) {
+            this.currentPage4 = page;
         },
         openView(data){
             this.$refs.view.show(data);

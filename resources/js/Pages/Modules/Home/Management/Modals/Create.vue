@@ -146,6 +146,7 @@ export default {
     },
     methods : {
         show() {
+            this.cart = [];
             this.showModal = true;
         },
         checkSearchStr: _.debounce(function(string) {

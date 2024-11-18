@@ -1,22 +1,40 @@
 <template>
-    <b-modal v-model="showModal" title="Add More" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
-        <b-form class="customform mb-2">
+    <b-modal v-model="showModal" title="Select Aesthetician" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
+        <b-form class="customform mb-2" v-if="selected">
             <div class="row">
-                <div class="col-md-12 mt-2">
-                    <div class="alert alert-warning" role="alert">It is optional to choose an aesthetician</div>
-                </div>
                 <div class="col-md-12 mt-2 mb-2">
+                   <div class="form-group">
+                        <label>Service: <span v-if="form.errors" v-text="form.errors.service_id" class="haveerror"></span></label>
+                        <Multiselect 
+                        :options="services" 
+                        v-model="service"
+                        label="name"
+                        object
+                        :searchable="true" 
+                        placeholder="Select Service"/>
+                        </div>
+                </div>
+                <div class="col-md-6 mt-1">
                     <div class="form-group">
-                        <multiselect id="ajax" label="name" :searchable="true" object
-                        placeholder="Select Service" v-model="service" open-direction="bottom" 
-                        :options="services" :allow-empty="false" :show-labels="false">
-                        </multiselect> 
+                        <label>Date: <span v-if="form.errors" v-text="form.errors.date" class="haveerror"></span></label>
+                        <input type="date" :min="notBeforeToday" class="form-control" v-model="date">
                     </div>
                 </div>
-                <div class="col-md-12 mt-2" v-if="service">
+                <div class="col-md-6 mt-1">
+                   <div class="form-group">
+                        <label>Time: <span v-if="form.errors" v-text="form.errors.time" class="haveerror"></span></label>
+                          <select name="time" v-model="time" class="form-control">
+                            <option :value="null">Select Time</option>
+                            <option v-for="(time,index) in times" v-bind:value="time.value" v-bind:key="index" :selected="time.value == '4:00 PM'">{{time.text}}
+                            </option>
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-md-12 mt-3">
                     <div class="form-group">
-                        <multiselect id="ajax" label="name" :searchable="true" object
-                        placeholder="Select Aesthetician" v-model="aesthetician" open-direction="bottom" 
+                        <label>Aesthetician: <span class="text-danger">(Required)</span></label>
+                        <multiselect id="ajax" label="name" :searchable="true" 
+                        placeholder="Select Aesthetician" v-model="aesthetician" open-direction="bottom" object
                         :options="aestheticians" :allow-empty="false" :show-labels="false">
                         </multiselect> 
                     </div>
@@ -25,7 +43,7 @@
         </b-form>
         <template v-slot:footer>
             <b-button @click="hide()" variant="light" block>Cancel</b-button>
-            <b-button @click="save()" variant="primary" :disabled="form.processing" block>Confirm</b-button>
+            <b-button @click="create('ok')" variant="primary" v-if="aesthetician" :disabled="form.processing" block>Save</b-button>
         </template>
     </b-modal>
 </template>
@@ -36,73 +54,126 @@ export default {
     components: { Multiselect },
     data(){
         return {
-            form: {},
-            showModal: false,
-            editable: false,
-            service: '',
-            services: [],
-            date: null,
+            selected: null,
+            service: null,
             aesthetician: null,
+            date: null,
+            time: null,
+            form: {},
+            cart: {},
             aestheticians: [],
-            id: null
+            showModal: false,
+            notBeforeToday: new Date().toISOString().split('T')[0],
+            times:[
+                { text:'8:00 AM', value: '8:00 AM' },
+                { text:'9:00 AM', value: '9:00 AM' },
+                { text:'10:00 AM', value: '10:00 AM' },
+                { text:'11:00 AM', value: '11:00 AM' },
+                { text:'12:00 PM', value: '12:00 PM' },
+                { text:'1:00 PM', value: '1:00 PM' },
+                { text:'2:00 PM', value: '2:00 PM' },
+                { text:'3:00 PM', value: '3:00 PM' },
+                { text:'4:00 PM', value: '4:00 PM' },
+                { text:'5:00 PM', value: '5:00 PM' },
+            ],
+            services: []
         }
     },
     watch: {
-        service(newService) {
-            if (newService) {
-                this.aestheticians = newService.aestheticians;
-            } else {
-                this.aestheticians = [];
-            }
+        date(newDate) {
+            this.checkAndFetch();
+        },
+        time(newTime) {
+            this.checkAndFetch();
+        },
+        service(data){
+            this.date = null;
+            this.time = null;
+            this.aesthetician = null;
+            this.aestheticians = [];
         }
     },
     methods : {
-        show(data,id,date) {
-            this.id = id;
-            this.date = date;
-            this.lists = data;
+        show(data) {
+            this.selected = data;
+            this.fetch2();
             this.showModal = true;
-            this.fetch();
         },
-        fetch(page_url){
-            page_url = page_url || '/appointments';
+        fetch2(page_url){
+            page_url = page_url || '/services';
             axios.get(page_url,{
                 params : {
-                    lists : this.lists,
-                    option: 'ids'
+                    option: 'services'
                 }
             })
             .then(response => {
-                this.services = response.data;
+                if(response){
+                    this.services = response.data.data;       
+                }
             })
             .catch(err => console.log(err));
         },
-        save(){
-             this.form = this.$inertia.form({
-                service: this.service,
-                aesthetician: this.aesthetician,
-                date: this.date,
-                appointment_id: this.id,
-                option: 'service'
+        checkAndFetch() {
+            if (this.date && this.time && this.service) {
+                this.fetch();
+            }
+        },
+        fetch(){
+            axios.get('/services',{
+                params : {
+                    date : this.date,
+                    time: this.time,
+                    service: this.service.id,
+                    category: this.service.category.value,
+                    option: 'checking'
+                }
             })
+            .then(response => {
+                if(response){
+                    this.aestheticians = response.data;       
+                }
+            })
+            .catch(err => console.log(err));
+        },
+        create(){
+            this.form = this.$inertia.form({
+                aesthetician_id: (this.aesthetician) ? this.aesthetician.value : null,
+                time: this.time,
+                date: this.date,
+                service_id: this.service.id,
+                price: this.service.price,
+                category: this.service.category.value,
+                appointment_id: this.selected,
+                option: 'more'
+            });
 
             this.form.post('/appointments',{
                 preserveScroll: true,
                 onSuccess: (response) => {
-                    console.log(this.$page.props.flash.data);
-                    this.$emit('message',this.$page.props.flash.data);
+                    this.$emit('update',response.props.flash.data.lists);
                     this.hide();
                 },
             });
-        },
-        calculateTotalPrice() {
-            this.subtotal = this.cart.reduce((total, item) => total + parseFloat(item.price), 0);
-        },
-        formatMoney(value) {
-            let val = (value/1).toFixed(2).replace(',', '.')
-            return '₱'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
+            // this.cart.id = this.selected.id;
+            // this.cart.service = this.selected.service;
+            // this.cart.description = this.selected.description;
+            // this.cart.price = this.selected.price;
+            // this.cart.aesthetician = this.aesthetician;
+            // this.cart.time = this.time;
+            // this.cart.date = this.date;
+            // this.$emit('update',this.cart);
+            // this.cart = {};
+            // this.selected = null;
+            // this.date = null;
+            // this.time = null;
+            // this.aesthetician = null;
+            // this.showModal = false;
+            // this.hide();
+        },  
         hide(){
+            this.date = null;
+            this.time = null;
+            this.aesthetician = null;
             this.service = null;
             this.showModal = false;
         },

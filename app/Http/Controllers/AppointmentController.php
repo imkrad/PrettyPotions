@@ -86,6 +86,22 @@ class AppointmentController extends Controller
                 $message = 'Service added successfully';
                 $status = true;
             }
+        }else if($request->option == 'more'){
+            $date = $request->date;
+            $time = date('H:i:s', strtotime($request->time));
+            $date = $date.' '.$time;
+            $data = new AppointmentService;
+            $data->service_id = $request->service_id;
+            $data->appointment_id = $request->appointment_id;
+            $data->status_id = 19;
+            $data->aesthetician_id = $request->aesthetician_id;
+            $data->date =  $date;
+            $data->price = $request->price;
+            $data->save();
+            $data = Appointment::with('lists.service','lists.status','lists.aesthetician.specialist','lists.aesthetician.user.profile','user.profile','status')->where('id',$request->appointment_id)->first();
+            $message = 'Service added successfully';
+            $status = true;
+
         }else if($request->option == 'remove'){
             $del = AppointmentService::where('id',$request->service['id'])->delete();
             if($del){
