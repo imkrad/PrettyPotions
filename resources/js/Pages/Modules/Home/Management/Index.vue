@@ -48,16 +48,42 @@
                             <p class="text-muted mb-0">{{counts[0].total}} appointments</p>
                         </BLink>
                     </BCard>
-                    <BCard no-body class="mb-1" v-for="(item, index) of appointments.pending" :key="index">
+                    <BCard no-body class="mb-1" v-for="(item, index) in paginatedAppointments" :key="index">
                         <BCardBody>
                             <BLink class="d-flex align-items-center" role="button" @click="openView(item)">
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-12 mb-1">{{item.code}} <span class="text-muted fs-11">({{item.user.profile.firstname}} {{item.user.profile.lastname}})</span></h6>
-                                    <p class="fs-12 text-muted mb-n1">Created At : {{item.created_at}}</p>
+                                    <h6 class="fs-12 mb-1">{{ item.code }} <span class="text-muted fs-11">({{ item.user.profile.firstname }} {{ item.user.profile.lastname }})</span></h6>
+                                    <p class="fs-12 text-muted mb-n1">Created At : {{ item.created_at }}</p>
                                 </div>
                             </BLink>
                         </BCardBody>
                     </BCard>
+                    <div class="d-flex justify-content-center mt-2">
+                        <ul class="pagination">
+                            <li class="page-item" @click="prevPage" :class="{'disabled': currentPage === 1}" :disabled="currentPage === 1" ><a class="page-link" href="#" target="_self" tabindex="-1">← &nbsp; Prev</a></li>
+                            <li class="page-item" 
+                                v-for="page in visiblePageNumbers" 
+                                :key="page" 
+                                @click="goToPage(page)" 
+                                :class="{'btn-primary': currentPage === page}">
+                                <a class="page-link" href="#" target="_self"> {{ page }}</a>
+                            </li>
+                            <li class="page-item" @click="nextPage" :class="{'disabled': currentPage === totalPages}" :disabled="currentPage === totalPages"><a class="page-link" href="#" target="_self">Next &nbsp; →</a></li>
+                        </ul>
+                    </div>
+                    <!-- <div class="d-flex justify-content-center mt-2">
+            <button class="btn btn-secondary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+            <button 
+                class="btn btn-outline-primary mx-1" 
+                v-for="page in visiblePageNumbers" 
+                :key="page" 
+                @click="goToPage(page)" 
+                :class="{'btn-primary': currentPage === page}"
+            >
+                {{ page }}
+            </button>
+            <button class="btn btn-secondary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+        </div> -->
                 </BCol>
                 <BCol>
                     <BCard no-body>
@@ -143,10 +169,51 @@ export default {
             discount: 0,
             subtotal: 0,
             total: 0,
-            lists: false
+            lists: false,
+            currentPage: 1,
+            itemsPerPage: 5
+        }
+    },
+    computed: {
+        paginatedAppointments() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.appointments.pending.slice(start, end);
+        },
+        totalPages() {
+            return Math.ceil(this.appointments.pending.length / this.itemsPerPage);
+        },
+        visiblePageNumbers() {
+            const maxVisible = 3;
+            let startPage = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
+            let endPage = startPage + maxVisible - 1;
+
+            if (endPage > this.totalPages) {
+                endPage = this.totalPages;
+                startPage = Math.max(endPage - maxVisible + 1, 1);
+            }
+
+            const pages = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+            return pages;
         }
     },
     methods: {
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
+        },
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+        goToPage(page) {
+            this.currentPage = page;
+        },
         openView(data){
             this.$refs.view.show(data);
         },

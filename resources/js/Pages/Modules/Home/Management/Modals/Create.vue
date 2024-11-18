@@ -26,7 +26,7 @@
                             <div class="col-md-6 col-lg-4 col-xxl-3 product-item upto-30" v-for="(list,index) in services" v-bind:key="index" >
                                 <div class="card explore-box card-animate" @click="addCart(list)" style="cursor: pointer;">
                                     <div class="position-relative rounded overflow-hidden">
-                                        <img :src="currentUrl+'/imagess/avatar.jpg'" alt="" class="card-img-top explore-img">
+                                        <img :src="image(list.image)" alt="" class="card-img-top explore-img">
                                     </div>
                                     <div class="card-body">
                                         <h6 class="fs-14 mb-0 text-truncate"><a class="">{{list.service}}</a></h6>
@@ -166,6 +166,10 @@ export default {
                 }
             })
             .catch(err => console.log(err));
+        },
+        image(img){
+            let link = (img == 'avatar.jpg') ? '/imagess/avatar.jpg' : img;
+            return this.currentUrl+'/'+link;
         },
         addCart(data){
             const exst = this.cart.some(item => item.id === data.id);
