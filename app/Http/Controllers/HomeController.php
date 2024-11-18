@@ -180,7 +180,7 @@ class HomeController extends Controller
         ]);
         
         $data = Service::where('id',$request->id)->first();
-        $imagePath = $request->file('image')->store('services', 'public');
+        $imagePath = $request->file('image')->store('services-pictures', 'public');
         $data->image = $imagePath;
         $data->save();
 
