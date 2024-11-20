@@ -51,12 +51,12 @@
                                 <input type="text" class="form-control" v-model="profile.suffix" style="text-transform: capitalize;">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Email: <span v-if="form.errors" v-text="form.errors.email" class="haveerror"></span></label>
                                 <input type="email" class="form-control" v-model="user.email" style="text-transform: lowercase;">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label>Mobile No.: <span v-if="form.errors" v-text="form.errors.mobile" class="haveerror"></span></label>
@@ -69,7 +69,7 @@
                                 <input type="text" class="form-control" v-model="user.username" style="text-transform: lowercase;">
                             </div>
                         </div>
-                        <div class="col-md-6" style="margin-top: -1px; margin-bottom: -15px;">
+                        <div class="col-md-12" style="margin-top: -1px; margin-bottom: -15px;">
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col-md-4">
                                     <div class="custom-control custom-radio mb-3">
@@ -131,7 +131,6 @@ export default {
             currentUrl: window.location.origin,
             user: {
                 id: '',
-                email: '',
                 avatar: '',
                 username: '',
                 password: null,
@@ -162,7 +161,7 @@ export default {
                 lastname: this.profile.lastname,
                 middlename: this.profile.middlename,
                 suffix: this.profile.suffix,
-                email: this.user.email,
+                email: this.user.username+'@gmail.com',
                 mobile: this.profile.mobile,
                 gender: this.profile.gender,
                 password: this.user.password,
