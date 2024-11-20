@@ -17,7 +17,7 @@ class ServiceResource extends JsonResource
         return [
             'id' => $this->id,
             'value' => $this->id,
-            'name' => $this->service.' ('.$this->price.')',
+            'name' => $this->service.' - '.$this->description.' ('.$this->price.')',
             'service' => $this->service,
             'description' => $this->description,
             'image' => ($this->image == 'avatar.jpg') ? $this->category->others : $this->image,

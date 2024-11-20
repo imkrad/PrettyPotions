@@ -4,19 +4,19 @@
             <div class="row customerform">
                 <div class="col-md-9 mt-2">
                    <div class="form-group">
-                        <label>Name:</label>
+                        <label>Name: <span v-if="form.errors" v-text="form.errors.service" class="haveerror"></span></label>
                         <input type="text" class="form-control" v-model="service.service">
                     </div>
                 </div>
                 <div class="col-md-3 mt-2">
                    <div class="form-group">
-                        <label>Price:</label>
+                        <label>Price: <span v-if="form.errors" v-text="form.errors.price" class="haveerror"></span></label>
                         <input type="text" class="form-control" v-model="service.price">
                     </div>
                 </div>
                 <div class="col-md-12 mt-2">
                    <div class="form-group">
-                        <label>Description:</label>
+                        <label>Description: <span v-if="form.errors" v-text="form.errors.description" class="haveerror"></span></label>
                         <input type="text" class="form-control" v-model="service.description">
                     </div>
                 </div>

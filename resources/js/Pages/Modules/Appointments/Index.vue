@@ -29,7 +29,7 @@
                         <b-col md="2">
                            
                         </b-col>
-                        <b-col md="1">
+                        <b-col md="1" v-if="$page.props.role == 'Administrator'">
                             <b-button variant="primary" class="w-100" @click="openReport()">Generate Report</b-button>
                         </b-col>
                     </b-row>

@@ -30,7 +30,8 @@
                                     </div>
                                     <div class="card-body">
                                         <h6 class="fs-14 mb-0 text-truncate"><a class="">{{list.service}}</a></h6>
-                                        <span class="text-muted">{{list.category.name}}</span>
+                                        <span class="text-muted">{{list.category.name}}</span><br />
+                                        <cite class="text-muted">{{list.description}}</cite>
                                        
                                     </div>
                                     <div class="card-footer">
@@ -169,7 +170,7 @@ export default {
             .catch(err => console.log(err));
         },
         image(img){
-            let link = (img == 'avatar.jpg') ? '/imagess/avatar.jpg' : '/storage/'+img;
+            let link = (img == 'avatar.jpg') ? '/imagess/avatar.jpg' : 'storage/'+img;
             return this.currentUrl+'/'+link;
         },
         addCart(data){

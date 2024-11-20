@@ -86,6 +86,13 @@ class ServiceController extends Controller
     }
     
     public function store(Request $request){
+        $request->validate([
+            'service' => 'sometimes|required',
+            'description' => 'sometimes|required',
+            'price' => 'sometimes|required',
+            'category_id' => 'required'
+        ]);
+
         $data = Service::create(array_merge($request->all(), ['is_active' => 1]));
 
         return back()->with([
@@ -124,7 +131,7 @@ class ServiceController extends Controller
             })
             ->where('is_active',1)
             ->orderBy('category_id','asc')
-            ->paginate($request->counts)
+            ->get()
         );
         return $data;
     }

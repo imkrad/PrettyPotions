@@ -86,6 +86,9 @@ export default {
     },
     methods : {
         show(data) {
+            this.date = null;
+            this.time = null;
+            this.aesthetician = null;
             this.selected = data;
             this.showModal = true;
         },
