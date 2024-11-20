@@ -449,7 +449,7 @@ class AppointmentController extends Controller
         $year = date('Y');
 
         $lists = Appointment::with('user.profile','status','lists.service','lists.status','lists.aesthetician.user.profile','review')
-        ->where('status_id','!=',21)
+        ->where('status_id',20)
         ->whereYear('created_at',$year)
         ->get();
 
