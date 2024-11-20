@@ -26,7 +26,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'categories/aDKSzZGHNPtIPsaAI4agZQBXLaTTwdNVHiEOQ8q3.jpg',
             ),
             1 => 
             array (
@@ -35,7 +35,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             2 => 
             array (
@@ -44,7 +44,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             3 => 
             array (
@@ -53,7 +53,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             4 => 
             array (
@@ -62,7 +62,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             5 => 
             array (
@@ -71,7 +71,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             6 => 
             array (
@@ -80,7 +80,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             7 => 
             array (
@@ -89,7 +89,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             8 => 
             array (
@@ -98,7 +98,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             9 => 
             array (
@@ -107,7 +107,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             10 => 
             array (
@@ -116,7 +116,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             11 => 
             array (
@@ -125,7 +125,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             12 => 
             array (
@@ -134,7 +134,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             13 => 
             array (
@@ -143,7 +143,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Category',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             14 => 
             array (
@@ -152,7 +152,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Specialist',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             15 => 
             array (
@@ -161,7 +161,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Specialist',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             16 => 
             array (
@@ -170,7 +170,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Specialist',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             17 => 
             array (
@@ -179,7 +179,7 @@ class DropdownsTableSeeder extends Seeder
                 'classification' => 'Specialist',
                 'type' => 'n/a',
                 'color' => 'n/a',
-                'others' => 'n/a',
+                'others' => 'avatar.jpg',
             ),
             18 => 
             array (
