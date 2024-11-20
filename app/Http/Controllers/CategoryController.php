@@ -36,7 +36,7 @@ class CategoryController extends Controller
         ]);
         
         $data = Dropdown::where('id',$request->id)->first();
-        $imagePath = $request->file('image')->store('categories', 'public');
+        $imagePath = $request->file('image')->store('categories-images', 'public');
         $data->others = $imagePath;
         $data->save();
 
