@@ -62,10 +62,10 @@
         <table style="border: 1px solid black; font-size: 10px;">
             <thead style="background-color:#c8c8c8; padding: 5px; font-size: 9px;">
                 <tr>    
-                    <th style="vertical-align: middle;" width="12%">Code</th>
-                    <th style="vertical-align: middle;" width="28%">Client</th>
-                    <th style="vertical-align: middle;" width="8%">Service</th>
-                    <th style="vertical-align: middle;" width="8%">Rating</th>
+                    <th style="vertical-align: middle;" width="8%">Code</th>
+                    <th style="vertical-align: middle;" width="11%">Client</th>
+                    <th style="vertical-align: middle;" width="40%">Service</th>
+                    <th style="vertical-align: middle;" width="5%">Rating</th>
                     <th style="vertical-align: middle;" width="8%">Status</th>
                     <th style="vertical-align: middle;" width="8%">Total</th>
                 </tr>
@@ -74,10 +74,17 @@
             @foreach($lists as $index=>$list)
                 <tr style="text-align: center; font-size: 9px; color: #072388;">
                     <td>{{$list['code']}}</td>
-                    <td style="text-align: left;">
+                    <td>
                         {{$list['user']['profile']['firstname']}} {{$list['user']['profile']['lastname']}}
                     </td>
-                    <td>-</td>
+                    <td>
+                    @foreach($list['lists'] as $index => $listItem)
+    {{ $listItem['service']['service'] }}
+    @if (!$loop->last)
+        ,
+    @endif
+@endforeach
+                    </td>
                     <td>{{($list['review']) ? $list['review']['rating'] : '-'}}</td>
                     <td>{{$list['status']['name']}}</td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{number_format(trim(str_replace(',','',$list['total']),'₱ '),2,".",",")}}</td>
