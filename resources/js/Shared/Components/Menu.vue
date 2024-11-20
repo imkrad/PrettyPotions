@@ -36,6 +36,12 @@
                     </Link>
                 </li>
                 <li class="nav-item" v-if="$page.props.role != 'Client'">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Categories') }" href="/categories">
+                        <i class='ri-service-fill'></i>
+                        <span data-key="t-dashboards">Categories</span>
+                    </Link>
+                </li>
+                <li class="nav-item" v-if="$page.props.role != 'Client'">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Services') }" href="/services">
                         <i class='ri-service-fill'></i>
                         <span data-key="t-dashboards">Services</span>

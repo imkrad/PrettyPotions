@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::middleware([RoleMiddleware::class])->group(function () {
         Route::resource('/services', App\Http\Controllers\ServiceController::class);
+        Route::resource('/categories', App\Http\Controllers\CategoryController::class);
         Route::resource('/clients', App\Http\Controllers\ClientController::class);
         Route::resource('/aestheticians', App\Http\Controllers\AestheticianController::class);
         Route::resource('/appointments', App\Http\Controllers\AppointmentController::class);

@@ -20,7 +20,7 @@ class ServiceResource extends JsonResource
             'name' => $this->service.' ('.$this->price.')',
             'service' => $this->service,
             'description' => $this->description,
-            'image' => $this->image,
+            'image' => ($this->image == 'avatar.jpg') ? $this->category->others : $this->image,
             'category_id' => $this->category_id,
             'price' => $this->price,
             'is_active' => $this->is_active,

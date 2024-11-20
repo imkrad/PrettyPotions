@@ -9,6 +9,8 @@ class Dropdown extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     public function services()
     {
         return $this->hasMany('App\Models\Service', 'category_id');
