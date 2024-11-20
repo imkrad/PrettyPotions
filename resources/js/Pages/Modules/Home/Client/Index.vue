@@ -34,8 +34,8 @@
                                     </div>
                                     <div class="card-body">
                                         <h6 class="fs-14 mb-0 text-truncate"><a class="" href="/apps/nft-item-detail" target="_self">{{list.service}}</a></h6>
-                                        <span class="text-muted">{{list.category.name}}</span>
-                                       
+                                        <span class="text-muted">{{list.category.name}}</span><br />
+                                         <cite class="text-muted">{{list.description}}</cite>
                                     </div>
                                     <div class="card-footer">
                                         <div class="mt-n1 mb-n3">
