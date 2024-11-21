@@ -36,9 +36,9 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(DropdownsTableSeeder::class);
         $this->call(ServicesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
-        $this->call(UserProfilesTableSeeder::class);
-        $this->call(AestheticiansTableSeeder::class);
-        $this->call(AestheticianServicesTableSeeder::class);
+        // $this->call(UsersTableSeeder::class);
+        // $this->call(UserProfilesTableSeeder::class);
+        // $this->call(AestheticiansTableSeeder::class);
+        // $this->call(AestheticianServicesTableSeeder::class);
     }
 }
