@@ -217,8 +217,8 @@ class AppointmentController extends Controller
             $client = new Client();
             $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
                 'query' => [
-                    'apiusername' => 'APIJLHNMMIQBJ',
-                    'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                    'apiusername' => 'APIRFZADZPJHP',
+                    'apipassword' => 'APIRFZADZPJHPRFZAD',
                     'senderid' => 'TEST',
                     'mobileno' => $mobile,
                     'message' => $content,
@@ -246,8 +246,8 @@ class AppointmentController extends Controller
                 $client = new Client();
                 $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
                     'query' => [
-                        'apiusername' => 'APIJLHNMMIQBJ',
-                        'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                        'apiusername' => 'APIRFZADZPJHP',
+                        'apipassword' => 'APIRFZADZPJHPRFZAD',
                         'senderid' => 'TEST',
                         'mobileno' => \Auth::user()->profile->mobile,
                         'message' => $content, //$request->reason
@@ -275,8 +275,8 @@ class AppointmentController extends Controller
                 $client = new Client();
                 $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
                     'query' => [
-                        'apiusername' => 'APIJLHNMMIQBJ',
-                        'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                        'apiusername' => 'APIRFZADZPJHP',
+                        'apipassword' => 'APIRFZADZPJHPRFZAD',
                         'senderid' => 'TEST',
                         'mobileno' => \Auth::user()->profile->mobile,
                         'message' => $request->reason,
@@ -334,8 +334,8 @@ class AppointmentController extends Controller
                 $client = new Client();
                 $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
                     'query' => [
-                        'apiusername' => 'APIJLHNMMIQBJ',
-                        'apipassword' => 'APIJLHNMMIQBJJLHNM',
+                        'apiusername' => 'APIRFZADZPJHP',
+                        'apipassword' => 'APIRFZADZPJHPRFZAD',
                         'senderid' => 'TEST',
                         'mobileno' => $mobile,
                         'message' => $content,
