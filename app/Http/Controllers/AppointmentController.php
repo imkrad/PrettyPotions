@@ -215,11 +215,11 @@ class AppointmentController extends Controller
             $content = 'Appointment Reminder: Hello '.$name.' from Pretty Potions! Your appointment is scheduled on '.$date.'. Please be there. See you soon!';
             
             $client = new Client();
-            $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+            $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
                 'query' => [
                     'apiusername' => 'APIRFZADZPJHP',
                     'apipassword' => 'APIRFZADZPJHPRFZAD',
-                    'senderid' => 'TEST',
+                    'senderid' => 'ONEWAY',
                     'mobileno' => $mobile,
                     'message' => $content,
                     'languagetype' => 1
@@ -244,11 +244,11 @@ class AppointmentController extends Controller
             if($a){
                 $content = 'Booking Cancellation Notice, We\'re sorry to inform you that your booking for '.implode(', ', $serviceMessages).' Pretty Potions has been canceled. If you have any questions or would like to reschedule, please contact us at 0995-513-6602. We apologize for any inconvenience this may have caused and appreciate your understanding.';
                 $client = new Client();
-                $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
                     'query' => [
                         'apiusername' => 'APIRFZADZPJHP',
                         'apipassword' => 'APIRFZADZPJHPRFZAD',
-                        'senderid' => 'TEST',
+                        'senderid' => 'ONEWAY',
                         'mobileno' => \Auth::user()->profile->mobile,
                         'message' => $content, //$request->reason
                         'languagetype' => 1
@@ -273,11 +273,11 @@ class AppointmentController extends Controller
             if($a){
                 $content = 'Thank you for choosing Pretty Potions. Your reservation for '.implode(', ', $serviceMessages).' has been successfully confirmed. If you have any questions or need to make changes, please contact us at 0995-513-6602. We look forward to serving you!';
                 $client = new Client();
-                $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
                     'query' => [
                         'apiusername' => 'APIRFZADZPJHP',
                         'apipassword' => 'APIRFZADZPJHPRFZAD',
-                        'senderid' => 'TEST',
+                        'senderid' => 'ONEWAY',
                         'mobileno' => \Auth::user()->profile->mobile,
                         'message' => $request->reason,
                         'languagetype' => 1
@@ -332,11 +332,11 @@ class AppointmentController extends Controller
                 $mobile = $data->user->profile->mobile;
                 $content = 'Thank you for choosing Pretty Potions. Your reservation at prettypotion has been successfully confirmed. If you have any questions or need to make changes, please contact us at 0995-513-6602. We look forward to serving you!';
                 $client = new Client();
-                $result = $client->request('GET', 'http://gateway.onewaysms.ph:10001/api.aspx', [
+                $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
                     'query' => [
                         'apiusername' => 'APIRFZADZPJHP',
                         'apipassword' => 'APIRFZADZPJHPRFZAD',
-                        'senderid' => 'TEST',
+                        'senderid' => 'ONEWAY',
                         'mobileno' => $mobile,
                         'message' => $content,
                         'languagetype' => 1
