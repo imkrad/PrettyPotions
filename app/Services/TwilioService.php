@@ -16,6 +16,7 @@ class TwilioService
 
     public function sendSms($to, $message)
     {
+       
         if (substr($to, 0, 1) === '0') {
             $to = '+63' . substr($to, 1); // Replace leading 0 with +63
         }
@@ -34,7 +35,7 @@ class TwilioService
 
         $ch = curl_init();
         $parameters = array(
-            'apikey' => '7eef4877bfbb1cc20b7725e70853c8e4', //Your API KEY
+            'apikey' => config('app.api_key'), //Your API KEY
             'number' => $to,
             'message' => $message,
             'sendername' => 'SEMAPHORE'
