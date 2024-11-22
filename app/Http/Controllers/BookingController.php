@@ -20,6 +20,13 @@ class BookingController extends Controller
                 'status' => true,
             ]);
         }else{
+            $validated = $request->validate([
+                'service_id' => 'required',
+                'category' => 'required',
+                'date' => 'required',
+                'time' => 'required',
+            ]);
+
             $aesthetician = $request->aesthetician_id;
             $service = $request->service_id;
             $category = $request->category;

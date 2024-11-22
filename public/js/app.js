@@ -1535,8 +1535,10 @@ __webpack_require__.r(__webpack_exports__);
       this.form.post('/booking', {
         preserveScroll: true,
         onSuccess: function onSuccess(response) {
-          _this2.$emit('message', true);
-          _this2.hide();
+          if (response.errors.length == 0) {
+            _this2.$emit('message', true);
+            _this2.hide();
+          }
         }
       });
       // this.cart.id = this.selected.id;
@@ -1550,8 +1552,8 @@ __webpack_require__.r(__webpack_exports__);
       // this.cart = {};
       // this.selected = null;
       // this.aesthetician = null;
-      this.showModal = false;
-      this.hide();
+      // this.showModal = false;
+      // this.hide();
     },
     hide: function hide() {
       this.showModal = false;
@@ -7363,7 +7365,6 @@ var _hoisted_16 = {
 };
 var _hoisted_17 = {
   "class": "",
-  href: "/apps/nft-item-detail",
   target: "_self"
 };
 var _hoisted_18 = {

@@ -33,7 +33,7 @@
                                         <img :src="image(list.image)" alt="" class="card-img-top explore-img">
                                     </div>
                                     <div class="card-body">
-                                        <h6 class="fs-14 mb-0 text-truncate"><a class="" href="/apps/nft-item-detail" target="_self">{{list.service}}</a></h6>
+                                        <h6 class="fs-14 mb-0 text-truncate"><a class="" target="_self">{{list.service}}</a></h6>
                                         <span class="text-muted">{{list.category.name}}</span><br />
                                          <cite class="text-muted">{{list.description}}</cite>
                                     </div>
