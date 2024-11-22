@@ -16,9 +16,9 @@ class TwilioService
 
     public function sendSms($to, $message)
     {
-        // if (substr($to, 0, 1) === '0') {
-        //     $to = '+63' . substr($to, 1); // Replace leading 0 with +63
-        // }
+        if (substr($to, 0, 1) === '0') {
+            $to = '+63' . substr($to, 1); // Replace leading 0 with +63
+        }
         // return $this->client->messages->create($to, [
         //     'from' => '+16514123300',
         //     'body' => $message,
