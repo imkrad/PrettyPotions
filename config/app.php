@@ -17,9 +17,10 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'agency' => env('AGENCY_ID'),
-    'api_link' => env('API_LINK'),
-    'api_key' => env('API_KEY'),
+    'sid' => env('TWILIO_ACCOUNT_SID'),
+    'token' => env('TWILIO_AUTH_TOKEN'),
+    'from' => env('TWILIO_PHONE_NUMBER'),
+
 
     /*
     |--------------------------------------------------------------------------

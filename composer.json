@@ -18,7 +18,8 @@
         "orangehill/iseed": "^3.0",
         "rappasoft/laravel-authentication-log": "^3.0",
         "spatie/laravel-welcome-notification": "^2.3",
-        "torann/geoip": "^3.0"
+        "torann/geoip": "^3.0",
+        "twilio/sdk": "^8.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

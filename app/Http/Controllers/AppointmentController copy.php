@@ -222,7 +222,7 @@ class AppointmentController extends Controller
             $date = $list['date'];
             $content = 'Appointment Reminder: Hello '.$name.' from Pretty Potions! Your appointment is scheduled on '.$date.'. Please be there. See you soon!';
             
-            $this->twilio->sendSms($mobile, $content);
+            $this->twilio->sendSms($to, $message);
             return back()->with([
                 'data' => $response,
                 'message' => 'Message sent successfully.',
@@ -239,7 +239,18 @@ class AppointmentController extends Controller
             }
             if($a){
                 $content = 'Booking Cancellation Notice, We\'re sorry to inform you that your booking for '.implode(', ', $serviceMessages).' Pretty Potions has been canceled. If you have any questions or would like to reschedule, please contact us at 0995-513-6602. We apologize for any inconvenience this may have caused and appreciate your understanding.';
-                $this->twilio->sendSms(\Auth::user()->profile->mobile, $content);
+                $client = new Client();
+                $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
+                    'query' => [
+                        'apiusername' => 'APIRFZADZPJHP',
+                        'apipassword' => 'APIRFZADZPJHPRFZAD',
+                        'senderid' => 'ONEWAY',
+                        'mobileno' => \Auth::user()->profile->mobile,
+                        'message' => $content, //$request->reason
+                        'languagetype' => 1
+                    ]
+                ]);
+                $response = json_decode($result->getBody()->getContents());
 
                 return back()->with([
                     'data' => '',
@@ -249,7 +260,7 @@ class AppointmentController extends Controller
                 ]);
             }
         }else if($request->option == 'Confirm'){
-            $a = Appointment::with('lists.service','user.profile')->where('id',$request->id)->first();
+            $a = Appointment::with('lists.service')->where('id',$request->id)->first();
             $a->status_id = $request->status_id;
             $a->save();
             foreach($a->lists as $list){
@@ -257,7 +268,18 @@ class AppointmentController extends Controller
             }
             if($a){
                 $content = 'Thank you for choosing Pretty Potions. Your reservation for '.implode(', ', $serviceMessages).' has been successfully confirmed. If you have any questions or need to make changes, please contact us at 0995-513-6602. We look forward to serving you!';
-                $this->twilio->sendSms($a->user->profile->mobile, $content);
+                $client = new Client();
+                $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
+                    'query' => [
+                        'apiusername' => 'APIRFZADZPJHP',
+                        'apipassword' => 'APIRFZADZPJHPRFZAD',
+                        'senderid' => 'ONEWAY',
+                        'mobileno' => \Auth::user()->profile->mobile,
+                        'message' => $request->reason,
+                        'languagetype' => 1
+                    ]
+                ]);
+                $response = json_decode($result->getBody()->getContents());
 
                 return back()->with([
                     'data' => '',
@@ -305,7 +327,18 @@ class AppointmentController extends Controller
             if($request->status_id == 22){
                 $mobile = $data->user->profile->mobile;
                 $content = 'Thank you for choosing Pretty Potions. Your reservation at prettypotion has been successfully confirmed. If you have any questions or need to make changes, please contact us at 0995-513-6602. We look forward to serving you!';
-                $this->twilio->sendSms($mobile, $content);
+                $client = new Client();
+                $result = $client->request('GET', 'https://sgateway.onewaysms.com/apis10.aspx', [
+                    'query' => [
+                        'apiusername' => 'APIRFZADZPJHP',
+                        'apipassword' => 'APIRFZADZPJHPRFZAD',
+                        'senderid' => 'ONEWAY',
+                        'mobileno' => $mobile,
+                        'message' => $content,
+                        'languagetype' => 1
+                    ]
+                ]);
+                $response = json_decode($result->getBody()->getContents());
             }
             return back()->with([
                 'data' => $data,
