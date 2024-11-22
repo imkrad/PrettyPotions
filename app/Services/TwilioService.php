@@ -29,7 +29,6 @@ class TwilioService
         // Receive response from server
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         $output = curl_exec( $ch );
-        dd($output);
         curl_close ($ch);
     }
 
