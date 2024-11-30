@@ -42,7 +42,7 @@
                                 <tr class="fs-11">
                                     <th style="width: 3%;">#</th>
                                     <th style="width: 25%;">Name</th>
-                                    <th style="width: 22%;" class="text-center">Email</th>
+                                    <th style="width: 22%;" class="text-center">Username</th>
                                     <th style="width: 10%;" class="text-center">Mobile</th>
                                     <th style="width: 15%;" class="text-center">Gender</th>
                                     <th style="width: 15%;" class="text-center">Role</th>
@@ -54,7 +54,7 @@
                                 <tr v-for="(list,index) in lists" v-bind:key="index" :class="[(list.is_active == 0) ? 'table-warnings' : '']">
                                     <td>{{ ((meta.current_page - 1) * meta.per_page) + index + 1 }}</td>
                                     <td>{{list.profile.lastname}}, {{list.profile.firstname}}</td>
-                                    <td class="text-center">{{list.email}}</td>
+                                    <td class="text-center">{{list.username}}</td>
                                     <td class="text-center">{{list.profile.mobile}}</td>
                                     <td class="text-center">{{list.profile.gender}}</td>
                                     <td class="text-center">{{list.role}}</td>

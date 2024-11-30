@@ -49,6 +49,7 @@ class StaffController extends Controller
         $data = User::create(array_merge($request->all(), ['password' => bcrypt($password),'is_active' => 1]));
         $data->profile()->create($request->all());
         $imagePath = $this->updateAvatar($request,$data->id);
+        $imagePath = $this->updateCard($request,$data->id);
 
         return back()->with([
             'data' => $data,
@@ -62,7 +63,7 @@ class StaffController extends Controller
         $data = User::findOrFail($request->id);
         $data->update($request->except('img','editable'));
         $profile = UserProfile::where('user_id',$request->id)->first();
-        $profile->update($request->except('email','role','is_active','img','editable'));
+        $profile->update($request->except('email','role','is_active','img','card','editable'));
         $imagePath = $this->updateAvatar($request,$data->id);
         $data = User::with('profile')->where('id',$request->id)->first();
         
@@ -92,6 +93,29 @@ class StaffController extends Controller
             if(\File::put(public_path('imagess/avatars'). '/' . $imageName, base64_decode($image))){
                 $data = User::findOrFail($id);
                 $data->avatar = $imageName;
+                $data->save();
+            }
+        }
+    }
+
+    public function updateCard($request, $id)
+    {
+        if($request->cardid != ''){
+            $data = $request->cardid;
+            $img = explode(',', $data);
+            $ini =substr($img[0], 11);
+            $type = explode(';', $ini);
+            if($type[0] == 'png'){
+                $image = str_replace('data:image/png;base64,', '', $data);
+            }else{
+                $image = str_replace('data:image/jpeg;base64,', '', $data);
+            }
+            $image = str_replace(' ', '+', $image);
+            $imageName = $request->username.'.'.$type[0];
+            
+            if(\File::put(public_path('imagess/cards'). '/' . $imageName, base64_decode($image))){
+                $data = User::findOrFail($id);
+                $data->card = $imageName;
                 $data->save();
             }
         }

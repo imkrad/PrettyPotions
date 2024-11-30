@@ -22,6 +22,7 @@ class User extends Authenticatable
         'role',
         'is_active',
         'avatar',
+        'card',
         'welcome_valid_until'
     ];
 

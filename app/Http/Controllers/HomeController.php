@@ -101,13 +101,13 @@ class HomeController extends Controller
                 'money' => true,
                 'total' => Appointment::where('status_id',20)->whereDate('created_at',now())->sum('total')
             ],
-            [
-                'name' => 'Total Income',
-                'icon' => 'ri-safe-fill',
-                'color' => 'text-danger',
-                'money' => true,
-                'total' => Appointment::where('status_id',20)->sum('total')
-            ]
+            // [
+            //     'name' => 'Total Income',
+            //     'icon' => 'ri-safe-fill',
+            //     'color' => 'text-danger',
+            //     'money' => true,
+            //     'total' => Appointment::where('status_id',20)->sum('total')
+            // ]
         ];
     }
 

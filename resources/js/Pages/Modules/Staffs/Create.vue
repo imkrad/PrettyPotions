@@ -51,12 +51,12 @@
                                 <input type="text" class="form-control" v-model="profile.suffix" style="text-transform: capitalize;">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Email: <span v-if="form.errors" v-text="form.errors.email" class="haveerror"></span></label>
                                 <input type="email" class="form-control" v-model="user.email" style="text-transform: lowercase;">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label>Mobile No.: <span v-if="form.errors" v-text="form.errors.mobile" class="haveerror"></span></label>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label>Role: <span v-if="form.errors" v-text="form.errors.role" class="haveerror"></span></label>
                                 <Multiselect 
@@ -162,7 +162,7 @@ export default {
                 lastname: this.profile.lastname,
                 middlename: this.profile.middlename,
                 suffix: this.profile.suffix,
-                email: this.user.email,
+                email: this.user.username+'@gmail.com',
                 mobile: this.profile.mobile,
                 gender: this.profile.gender,
                 role: this.user.role,

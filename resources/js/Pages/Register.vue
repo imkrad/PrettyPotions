@@ -69,7 +69,7 @@
                                 <input type="text" class="form-control" v-model="user.username" style="text-transform: lowercase;">
                             </div>
                         </div>
-                        <div class="col-md-12" style="margin-top: -1px; margin-bottom: -15px;">
+                        <div class="col-md-12" style="margin-top: -10px; margin-bottom: -15px;">
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col-md-4">
                                     <div class="custom-control custom-radio mb-3">
@@ -99,6 +99,14 @@
                                 <label>Confirm Password: <span v-if="form.errors" v-text="form.errors.password_confirmation" class="haveerror"></span></label>
                                 <input type="password" class="form-control" v-model="user.password_confirmation">
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr class="text-muted"/>
+                        </div>
+                        <div class="col-md-12">
+                            <p>Please attach I.D <span v-if="form.errors" v-text="form.errors.card" class="haveerror"></span></p>
+                            <!-- <input type="file" id="file-upload" multiple @change="handleFileUpload"/> -->
+                            <input id="profile-img-file-input2" class="profile-img-file-input2" type="file" @change="previewImage2">
                         </div>
                     </div>
                 </div>
@@ -134,6 +142,7 @@ export default {
                 avatar: '',
                 username: '',
                 password: null,
+                card: null,
                 password_confirmation: null
             },
             profile: {
@@ -143,9 +152,10 @@ export default {
                 middlename: '',
                 suffix: '',
                 gender: '',
-                mobile: '',
+                mobile: ''
             },
             form: {},
+            files: [],
             type: '',
             showModal: false,
             editable: false,
@@ -153,6 +163,9 @@ export default {
         }
     },
     methods: {
+        handleFileUpload(event) {
+            this.files = Array.from(event.target.files); // Convert FileList to array
+        },
         create() {
             this.form = this.$inertia.form({
                 id: this.user.id,
@@ -167,7 +180,8 @@ export default {
                 password: this.user.password,
                 password_confirmation: this.user.password_confirmation,
                 role: 'Client',
-                img: (this.editable) ? '' : this.user.avatar,
+                img: this.user.avatar,
+                cardid: this.user.card,
                 editable: this.editable
             });
             this.form.post('/staffs',{
@@ -199,6 +213,12 @@ export default {
             var reader = new FileReader();
             reader.addEventListener("load", function () { preview.src = reader.result; }, false);
             reader.onload = (e) => { this.user.avatar = e.target.result; };
+            if (file) { reader.readAsDataURL(file); }
+        },
+        previewImage2(e) {
+            var file = document.querySelector(".profile-img-file-input2").files[0];
+            var reader = new FileReader();
+            reader.onload = (e) => { this.user.card = e.target.result; };
             if (file) { reader.readAsDataURL(file); }
         },
     }

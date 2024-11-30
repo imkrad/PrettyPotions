@@ -12,6 +12,9 @@
                 </div>
             </div>
             <div class="flex-shrink-0">
+                <b-button @click="viewId(selected.user.card)" v-if="selected.status.name == 'Pending'" variant="soft-warning" class="me-1">
+                    <i class="ri-plus-fill align-bottom"></i> View Identification Card
+                </b-button>
                 <b-button @click="addMore()" v-if="selected.status.name == 'Pending'" variant="soft-info">
                     <i class="ri-plus-fill align-bottom"></i> Add More
                 </b-button>
@@ -97,18 +100,20 @@
         </template>
     </b-modal>
     <More @update="handleUpdate" ref="more"/>
+    <Id ref="id"/>
     <A @message="update" ref="a"/>
     <C @update="hide" ref="confirm"/>
 </template>
 <script>
 import A from './A.vue';
 import C from './C.vue';
+import Id from './Id.vue';
 import More from './More.vue';
 import vue3StarRatings from "vue3-star-ratings";
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
-    components: { Multiselect, vue3StarRatings, More, A, C },
+    components: { Multiselect, vue3StarRatings, More, A, C, Id },
     props: ['specialists','categories','users'],
     data(){
         return {
@@ -169,6 +174,9 @@ export default {
         },
         addMore(){
             this.$refs.more.show(this.selected.id);
+        },
+        viewId(data){
+            this.$refs.id.show(data);
         },
         removeCart(index,id,service){
             this.form = this.$inertia.form({

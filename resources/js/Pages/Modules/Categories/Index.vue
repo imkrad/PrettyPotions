@@ -59,13 +59,15 @@
         </div>
     </div>
     <Image ref="image"/>
+    <Create ref="create"/>
 </template>
 <script>
+import Create from './Create.vue';
 import Image from './Image.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
     props: ['categories'],
-    components: { Pagination, Image },
+    components: { Pagination, Image, Create },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -110,6 +112,9 @@ export default {
         },
         openImage(data){
             this.$refs.image.show(data);
+        },
+        openCreate(){
+            this.$refs.create.show();
         },
         refresh(){
             this.fetch();

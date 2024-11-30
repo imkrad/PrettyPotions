@@ -25,6 +25,7 @@ class CategoryController extends Controller
             ->when($request->keyword, function ($query, $keyword) {
                 $query->where('name', 'LIKE', "%{$keyword}%");
             })
+            ->orderBy('id','DESC')
             ->paginate($request->counts)
         );
         return $data;
@@ -43,6 +44,25 @@ class CategoryController extends Controller
         return back()->with([
             'data' => $data,
             'message' => 'Image updated successfully.',
+            'info' => '-',
+            'status' => true,
+        ]);
+    }
+
+    public function update(Request $request){
+        $request->validate([
+            'name' => 'required|unique:dropdowns,name' // Assuming maximum file size is 2MB
+        ]);
+        
+        $data = new Dropdown;
+        $data->name = $request->name;
+        $data->classification = 'Category';
+        $data->type = 'n/a';
+        $data->save();
+
+        return back()->with([
+            'data' => $data,
+            'message' => 'Category created successfully.',
             'info' => '-',
             'status' => true,
         ]);

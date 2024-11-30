@@ -2,8 +2,14 @@
     <b-modal v-model="showModal" :title="type+' Appointment'"  style="--vz-modal-width: 600px;" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
         <b-form class="customform mb-2">
             <div class="row customerform">
-                <div class="col-md-12">
+                <div class="col-md-12" v-if="type == 'Confirm'">
                    Are you sure?
+                </div>
+                <div class="col-md-12" v-else>
+                    <div class="form-group">
+                        <label>Reason: <span v-if="form.errors" v-text="form.errors.reason" class="haveerror"></span></label>
+                        <input type="text" class="form-control" v-model="reason">
+                    </div>
                 </div>
             </div>
         </b-form>
@@ -21,6 +27,7 @@ export default {
             editable: false,
             form: {},
             type: null,
+            reason: null,
             status: null,
             id: null,
         }
@@ -35,6 +42,7 @@ export default {
         save(){
             this.form = this.$inertia.form({
                 id: this.id,
+                reason: this.reason,
                 status_id: this.status,
                 option: this.type,
             })
