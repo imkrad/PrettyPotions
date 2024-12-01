@@ -239,7 +239,7 @@ class AppointmentController extends Controller
             }
             if($a){
                 $content = 'Booking Cancellation Notice, We\'re sorry to inform you that your booking for '.implode(', ', $serviceMessages).' Pretty Potions has been cancelled due to '.$request->reason.'. If you have any questions or would like to reschedule, please contact us at 0995-513-6602. We apologize for any inconvenience this may have caused and appreciate your understanding.';
-                $this->twilio->sendSms(\Auth::user()->profile->mobile, $content);
+                $this->twilio->sendSms($a->user->profile->mobile, $content);
 
                 return back()->with([
                     'data' => '',

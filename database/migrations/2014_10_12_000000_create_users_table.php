@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar',200)->default('avatar.jpg');
+            $table->string('card',200)->nullable();
             $table->string('role',50);
             $table->boolean('is_active')->default(0);
             $table->timestamp('welcome_valid_until')->nullable();
