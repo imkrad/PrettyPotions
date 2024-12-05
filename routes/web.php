@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/aestheticians', App\Http\Controllers\AestheticianController::class);
         Route::resource('/appointments', App\Http\Controllers\AppointmentController::class);
         Route::resource('/reviews', App\Http\Controllers\ReviewController::class);
+        Route::resource('/reports', App\Http\Controllers\ReportController::class);
     // });
 
     Route::resource('/booking', App\Http\Controllers\BookingController::class);

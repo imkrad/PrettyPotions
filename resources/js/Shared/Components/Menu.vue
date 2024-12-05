@@ -71,6 +71,12 @@
                         <span data-key="t-dashboards">Staffs</span>
                     </Link>
                 </li>
+                <li class="nav-item" v-if="$page.props.role != 'Client'">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Reports') }" href="/reports">
+                        <i class='ri-file-list-line'></i>
+                        <span data-key="t-dashboards">Reports</span>
+                    </Link>
+                </li>
             </ul>
             <!-- </simplebar> -->
             <div class="sidebar-background"></div>

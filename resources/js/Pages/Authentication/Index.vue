@@ -62,11 +62,11 @@
                                     Sign In
                                 </b-button>
                             </div>
-                            <!-- <div class="mt-4 text-center">
+                            <div class="mt-4 text-center">
                                 <p class="mb-0">Forgot your password? 
                                     <Link href="/forgot-password" class="fw-semibold text-primary text-decoration-underline"> Click here</Link>
                                 </p>
-                            </div> -->
+                            </div>
 
                         </form>
                         </div>

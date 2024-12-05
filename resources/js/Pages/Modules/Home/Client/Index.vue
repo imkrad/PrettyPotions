@@ -137,7 +137,7 @@
                                     <th style="width: 15%;" class="text-center">Total</th>
                                     <th style="width: 15%;" class="text-center">Request Date</th>
                                     <th style="width: 15%;" class="text-center">Status</th>
-                                    <th style="width: 10%;" class="text-center">Rate</th>
+                                    <th style="width: 10%;" class="text-center">Lists</th>
                                     <th style="width: 5%;"></th>
                                 </tr>
                             </thead>
@@ -152,8 +152,8 @@
                                         <span class="badge" :class="list.status.color">{{list.status.name}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <b-button v-if="!list.is_rated" variant="soft-info"  @click="openRate(list)" v-b-tooltip.hover title="View" size="sm" class="me-1" :disabled="list.status.name !== 'Completed'">
-                                             Rate now
+                                        <b-button v-if="!list.is_rated" variant="soft-info"  @click="openList(list.lists)" v-b-tooltip.hover title="View" size="sm" class="me-1" :disabled="list.status.name !== 'Completed'">
+                                            View lists
                                         </b-button>
                                         <span v-else>{{list.review.rating}}</span>
                                     </td>
@@ -177,8 +177,10 @@
     <Rate ref="rate"/>
     <View ref="view"/>
     <Tao @update="updateCart" ref="tao"/>
+    <Lists ref="lists"/>
 </template>
 <script>
+import Lists from './Modals/Lists.vue';
 import Tao from './Modals/Tao.vue';
 import View from '../Management/Modals/View.vue';
 import Rate from './Modals/Rate.vue';
@@ -187,7 +189,7 @@ import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 export default {
     props: ['categories','appointments','bookings'],
-    components: { Multiselect, Confirm, Rate, View, Tao },
+    components: { Multiselect, Confirm, Rate, View, Tao, Lists },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -295,6 +297,9 @@ export default {
                     this.hide();
                 },
             });
+        },
+        openList(data){
+            this.$refs.lists.show(data);
         },
         update(){
             this.cart = [];

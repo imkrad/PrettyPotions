@@ -43,7 +43,7 @@ export default {
         },
         create(){
             this.form = this.$inertia.form({
-                appointment_id: this.id,
+                id: this.id,
                 comment: this.comment,
                 rating: this.rating
             })
@@ -51,7 +51,7 @@ export default {
             this.form.post('/reviews',{
                 preserveScroll: true,
                 onSuccess: (response) => {
-                    this.$emit('message',true);
+                    this.$emit('message',this.$page.props.flash.data);
                     this.hide();
                 },
             });

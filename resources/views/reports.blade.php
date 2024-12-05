@@ -73,21 +73,14 @@
             <tbody>
             @foreach($lists as $index=>$list)
                 <tr style="text-align: center; font-size: 9px; color: #072388;">
-                    <td>{{$list['code']}}</td>
+                    <td>{{$list['appointment']['code']}}</td>
                     <td>
-                        {{$list['user']['profile']['firstname']}} {{$list['user']['profile']['lastname']}}
+                        {{$list['appointment']['user']['profile']['firstname']}} {{$list['appointment']['user']['profile']['lastname']}}
                     </td>
-                    <td>
-                    @foreach($list['lists'] as $index => $listItem)
-    {{ $listItem['service']['service'] }}
-    @if (!$loop->last)
-        ,
-    @endif
-@endforeach
-                    </td>
-                    <td>{{($list['review']) ? $list['review']['rating'] : '-'}}</td>
+                    <td>{{$list['service']['service']}} </td>
+                    <td>{{($list['rating']) ? $list['rating'] : '-'}}</td>
                     <td>{{$list['status']['name']}}</td>
-                    <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{number_format(trim(str_replace(',','',$list['total']),'₱ '),2,".",",")}}</td>
+                    <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{number_format(trim(str_replace(',','',$list['price']),'₱ '),2,".",",")}}</td>
                 </tr>
             @endforeach
             </tbody>

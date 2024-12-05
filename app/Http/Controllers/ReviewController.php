@@ -32,34 +32,32 @@ class ReviewController extends Controller
 
     public function store(Request $request){
        
-        $count = Appointment::where('id',$request->appointment_id)->where('is_rated',0)->count();
-        if($count > 0){
-            $wew = Appointment::where('id',$request->appointment_id)->update(['is_rated' => 1]);
-            $data = Review::create(array_merge($request->all(), ['user_id' => \Auth::user()->id]));
-            if($data){
-                $services = AppointmentService::where('appointment_id',$request->appointment_id)->get();
-                foreach($services as $service){
-                    $rate = new ServiceRate;
-                    $rate->rating = $request->rating;
-                    $rate->appointment_id = $request->appointment_id;
-                    $rate->service_id = $service['service_id'];
-                    $rate->user_id = \Auth::user()->id;
-                    $rate->save();
-                }
-            }
+        $rate = AppointmentService::where('id',$request->id)->first();
+        $rate->rating = $request->rating;
+        $rate->comment = $request->comment;
+        $rate->save();
+        $rate = AppointmentService::with('service','status')->where('id',$request->id)->first();
             return back()->with([
-                'data' => $data,
-                'message' => 'Appointment rated successfully.',
-                'info' => '-',
-                'status' => true,
-            ]);
-        }else{
-            return back()->with([
-                'data' => $data,
-                'message' => 'Appointment already rated.',
-                'info' => '-',
-                'status' => true,
-            ]);
-        }
+            'data' => $rate,
+            'message' => 'Appointment rated successfully.',
+            'info' => '-',
+            'status' => true,
+        ]);
+        // if($count > 0){
+           
+        //     return back()->with([
+        //         'data' => $data,
+        //         'message' => 'Appointment rated successfully.',
+        //         'info' => '-',
+        //         'status' => true,
+        //     ]);
+        // }else{
+        //     return back()->with([
+        //         'data' => $data,
+        //         'message' => 'Appointment already rated.',
+        //         'info' => '-',
+        //         'status' => true,
+        //     ]);
+        // }
     }
 }

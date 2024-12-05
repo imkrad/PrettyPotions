@@ -408,13 +408,22 @@ class AppointmentController extends Controller
         return $data;
     }
 
-    public function report(){ 
-        $year = date('Y');
+    public function report($request){ 
+        $year = ($request->year) ? $request->year : date('Y');
+        $category = $request->category;
+        $target = $request->target;
 
-        $lists = Appointment::with('user.profile','status','lists.service','lists.status','lists.aesthetician.user.profile','review')
-        ->where('status_id',22)
-        ->whereYear('created_at',$year)
-        ->get();
+        $query = AppointmentService::query();
+        $query->with('appointment','appointment.user.profile','service','status','aesthetician.user.profile')
+        ->whereYear('created_at',$year);
+        if($category == 'Daily'){
+            $query->whereDate('created_at',$target);
+        }else if($category == 'Monthly'){
+            $query->whereMonth('created_at',date('n', strtotime($target)));
+        }else{
+            $query->whereYear('created_at',$year);
+        }
+        $lists = $query->get();
         $array = [
             'title' => 'List of Appointment',
             'lists' => $lists,
