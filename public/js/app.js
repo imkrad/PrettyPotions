@@ -1663,10 +1663,8 @@ __webpack_require__.r(__webpack_exports__);
       this.form.post('/booking', {
         preserveScroll: true,
         onSuccess: function onSuccess(response) {
-          if (response.errors.length == 0) {
-            _this2.$emit('message', true);
-            _this2.hide();
-          }
+          _this2.$emit('message', true);
+          _this2.hide();
         }
       });
       // this.cart.id = this.selected.id;

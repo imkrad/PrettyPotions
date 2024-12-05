@@ -126,10 +126,8 @@ export default {
             this.form.post('/booking',{
                 preserveScroll: true,
                 onSuccess: (response) => {
-                    if(response.errors.length == 0){
                     this.$emit('message',true);
                     this.hide();
-                    }
                 },
             });
             // this.cart.id = this.selected.id;
