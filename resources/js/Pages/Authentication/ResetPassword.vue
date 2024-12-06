@@ -28,8 +28,8 @@
 
                                 <form class="customform" @submit.prevent="submit">
                                     <div class="mb-2">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" placeholder="Enter email" v-model="form.email" />
+                                        <label for="email" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="email" placeholder="Enter email" v-model="form.username" />
                                         <div class="invalid-feedback">
                                             <span></span>
                                         </div>
@@ -64,7 +64,6 @@
                                             Reset Password
                                         </b-button>
                                     </div>
-
                                 </form>
                                 </div>
                             </b-card-body>
@@ -87,13 +86,13 @@ export default {
 import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    email: String,
+    username: String,
     token: String,
 });
 
 const form = useForm({
     token: props.token,
-    email: props.email,
+    username: props.username,
     password: '',
     password_confirmation: '',
     showPassword: false

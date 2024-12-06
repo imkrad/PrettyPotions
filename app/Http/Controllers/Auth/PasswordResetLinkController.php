@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,9 +12,16 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Services\TwilioService;
 
 class PasswordResetLinkController extends Controller
 {
+    protected $twilio;
+
+    public function __construct(TwilioService $twilio)
+    {
+        $this->twilio = $twilio;
+    }
     /**
      * Display the password reset link request view.
      */
@@ -30,22 +40,37 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|exists:users,username',
         ]);
-
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+    
+        // Find the user by username
+        $user = User::where('username', $request->username)->first();
+    
+        if (!$user) {
+            return back()->withErrors(['username' => 'User not found.']);
+        }else{
+            $mobile = $user->profile->mobile;
         }
-
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
+    
+        // Generate a password reset token
+        $token = Str::random(60);
+    
+        // Save the token in the password_resets table
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->username], // Use 'username' as a key
+            [
+                'email' => $user->username,
+                'token' => bcrypt($token),
+                'created_at' => now(),
+            ]
+        );
+    
+        // Generate the reset link
+        $resetLink = url('/reset-password?token=' . $token . '&username=' . $user->username);
+    dd($resetLink);
+        // Send the reset link via SMS
+        $this->twilio->sendSms($mobile, $resetLink);
+    
+        return back()->with('status', 'Password reset link sent via SMS.');
     }
 }

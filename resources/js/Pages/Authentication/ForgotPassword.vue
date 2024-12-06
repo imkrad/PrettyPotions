@@ -28,8 +28,8 @@
 
                         <form class="customform" @submit.prevent="submit">
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" placeholder="Enter email" v-model="form.email" />
+                                <label for="email" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="email" placeholder="Enter username" v-model="form.username" />
                                 <div class="invalid-feedback">
                                     <span></span>
                                 </div>
@@ -81,7 +81,7 @@ export default {
     });
 
     const form = useForm({
-        email: '',
+        username: '',
     });
 
     const submit = () => {
