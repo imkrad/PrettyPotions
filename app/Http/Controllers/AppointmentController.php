@@ -415,6 +415,7 @@ class AppointmentController extends Controller
 
         $query = AppointmentService::query();
         $query->with('appointment','appointment.user.profile','service','status','aesthetician.user.profile')
+        ->where('status_id',20)
         ->whereYear('created_at',$year);
         if($category == 'Daily'){
             $query->whereDate('created_at',$target);
