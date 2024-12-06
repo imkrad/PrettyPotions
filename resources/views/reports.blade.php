@@ -89,7 +89,7 @@
                     $totalAmount = 0;
 
                     foreach ($lists as $list) {
-                        $total = str_replace(['₱ ', '₱', ',', ' '], '', $list['total']);
+                        $total = str_replace(['₱ ', '₱', ',', ' '], '', $list['price']);
                         $totalAmount += floatval($total);
                     }
                 @endphp
