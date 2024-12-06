@@ -44,7 +44,7 @@
                             <div class="mt-4">
                                  <div v-if="Object.keys(form.errors).length != 0" class="alert alert-warning text-center mt-4 mb-4" role="alert" v-text="form.errors.email"></div>
                                 <b-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" variant="primary" class="w-100" type="submit">
-                                    Email Password Reset Link
+                                    Reset Password 
                                 </b-button>
                             </div>
 

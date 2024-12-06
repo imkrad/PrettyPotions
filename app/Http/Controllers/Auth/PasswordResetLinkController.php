@@ -67,7 +67,7 @@ class PasswordResetLinkController extends Controller
     
         // Generate the reset link
         $resetLink = url('/reset-password?token=' . $token . '&username=' . $user->username);
-    dd($resetLink);
+    // dd($resetLink);
         // Send the reset link via SMS
         $this->twilio->sendSms($mobile, $resetLink);
     

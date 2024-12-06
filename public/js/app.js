@@ -4206,7 +4206,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         type: "submit"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Email Password Reset Link ")];
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset Password ")];
                         }),
                         _: 1 /* STABLE */
                       }, 8 /* PROPS */, ["class", "disabled"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Login now. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
